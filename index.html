@@ -7,13 +7,14 @@
   <meta name="color-scheme" content="light dark">
   <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root{--vandy-flat-gold:#CFAE70;--vandy-metallic-gold-light:#FEEEB6;--vandy-metallic-gold-dark:#B49248;--bg:#fff;--fg:#000;--line:#000;--thick:2.5px}
+    :root{--gold:#CFAE70;--goldL:#FEEEB6;--goldD:#B49248;--bg:#fff;--fg:#000;--line:#000;--thick:2.5px;--ok:#16a34a}
     @media (prefers-color-scheme: dark){:root{--bg:#0b0c0d;--fg:#f7f7f7;--line:#f7f7f7}}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 Inter,system-ui}
     .wrap{max-width:1120px;margin:0 auto;padding:28px 18px}
     header{position:sticky;top:0;background:var(--bg);border-bottom:var(--thick) solid var(--line);z-index:10}
     .row{display:flex;align-items:center;gap:14px}.space{flex:1}
     .mark{display:inline-flex;align-items:center;justify-content:center;border:var(--thick) solid var(--line);padding:8px 10px;font-weight:800}
+    .link{display:inline-flex;align-items:center;justify-content:center;height:40px;border:var(--thick) solid var(--line);padding:0 14px;font-weight:800;text-decoration:none}
     .icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:var(--thick) solid var(--line)}
     .icon svg{width:22px;height:22px}
     .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;padding:36px 0}
@@ -21,8 +22,15 @@
     .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
     @media (max-width:960px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:640px){.grid{grid-template-columns:1fr}}
-    .card{border:var(--thick) solid var(--line)}.thumb{aspect-ratio:16/9;width:100%;object-fit:cover;border-bottom:var(--thick) solid var(--line)}
+    .card{position:relative;border:var(--thick) solid var(--line);display:flex;flex-direction:column}
+    .thumb{aspect-ratio:16/9;width:100%;object-fit:cover;border-bottom:var(--thick) solid var(--line)}
+    .badge{position:absolute;top:8px;right:8px;background:#e8f8ee;color:#064e20;border:2px solid var(--ok);font-size:12px;padding:4px 8px;font-weight:800}
+    .caption{font-size:12px;color:#555;margin-top:6px}
     footer{margin:46px 0 60px;color:#666;border-top:var(--thick) solid var(--line)}
+    .content p{margin:12px 0}
+    .content figure{margin:12px 0}
+    .content img{width:100%;height:auto;border:var(--thick) solid var(--line)}
+    .section-title{margin:28px 0 8px;font-weight:800;border-bottom:var(--thick) solid var(--line);display:inline-block}
   </style>
 </head>
 <body>
@@ -30,11 +38,10 @@
     <div class="wrap row">
       <span class="mark">JZ</span>
       <div class="space"></div>
+      <a class="link" href="https://www.linkedin.com/in/jonathan-zak-76b265225/" target="_blank" rel="noreferrer" title="LinkedIn">LinkedIn</a>
+      <a class="link" href="assets/resume.pdf" download title="Download Resume">Resume</a>
       <a class="icon" href="mailto:jonathan.w.zak@vanderbilt.edu" title="Email Jonathan" aria-label="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14"/><path d="M3 7l9 6 9-6"/></svg>
-      </a>
-      <a class="icon" href="https://www.linkedin.com/in/jonathan-zak-76b265225/" target="_blank" rel="noreferrer" title="LinkedIn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 012.5 6 2.5 2.5 0 114.98 3.5zM2 8h6v14H2zM9 8h5v2.2h.07C15 9 16.6 8 19 8c4.9 0 5 3.4 5 7.8V22h-6v-6.4c0-1.5-.03-3.6-2.2-3.6-2.2 0-2.8 1.7-2.8 3.5V22H9z"/></svg>
       </a>
     </div>
   </header>
@@ -50,49 +57,129 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // ---- Customize here ----
+    const intro = `I’m a mechanical/aerospace engineer focused on structures, composites, and high‑rate testing. I like building rigs, writing code, and turning messy data into clear decisions.`;
+
+    // Each project uses an ordered 'content' array so you can interleave text and images with captions.
+    // Supported block types: 'h2', 'p', 'img', 'ul' (array of strings).
     const projects=[
-      {slug:'cfrp-shock-tube',title:'Carbon Fiber Shock Tube Research',cover:'assets/placeholder.svg',blurb:'CFRP section instrumented with FBG/RSG to capture dynamic hoop/axial strain.',gallery:[{type:'image',src:'assets/placeholder.svg'}]},
-      {slug:'drop-tower-fbg',title:'Dynamic Drop Tower with FBG',cover:'assets/placeholder.svg',blurb:'Compact impact rig with synchronized DAQ and FBG sensing.',gallery:[{type:'image',src:'assets/placeholder.svg'}]},
-      {slug:'usli-2024',title:'2024 USLI — Payload Engineer & Safety Officer',cover:'assets/placeholder.svg',blurb:'Led payload integration and mission safety; risk matrices & test protocols.',gallery:[{type:'image',src:'assets/placeholder.svg'}]},
-      {slug:'boosted-quadcopter',title:'Boosted Quadcopter Drone',cover:'assets/Drone_Photo.png',blurb:'5‑motor concept decoupling thrust from pitch/roll; field‑tested.',gallery:[
-        {type:'image',src:'assets/Drone_CAD.png'},
-        {type:'image',src:'assets/Drone_Photo.png'},
-        {type:'image',src:'assets/Attitude_Data.png'},
-        {type:'image',src:'assets/PowerConsumption_Data.png'},
-        {type:'image',src:'assets/Drone_Flight.gif'},
-        {type:'image',src:'assets/Drone_Haulage.gif'}
-      ]},
-      {slug:'autorotation-lander',title:'Autorotation Lander',cover:'assets/Autorotator_Prototype_1_Picture.png',blurb:'Foldable low‑drift lander validated with drop tests and CFD.',gallery:[
-        {type:'image',src:'assets/Autorotator_Prototype_1_Picture.png'},
-        {type:'image',src:'assets/AutoRotator_CFD.png'}
-      ]},
-      {slug:'teaching-assistant',title:'Teaching Assistant',cover:'assets/placeholder.svg',blurb:'TA for engineering coursework; coached teams on analysis and test planning.',gallery:[{type:'image',src:'assets/placeholder.svg'}]}
+      {
+        slug:'cfrp-shock-tube',
+        title:'Carbon Fiber Shock Tube Research',
+        active:true,
+        cover:'assets/placeholder.svg',
+        blurb:'CFRP section instrumented with FBG/RSG to capture dynamic hoop/axial strain.',
+        content:[
+          {type:'p', text:'We swap a standard shock‑tube section with a carbon‑fiber cylinder instrumented with FBG + RSG to capture hoop and axial dynamic strain as the wave passes and reflects.'},
+          {type:'img', src:'assets/placeholder.svg', caption:'CFRP section test article (placeholder — add real photo)'},
+          {type:'p', text:'Goals: identify mode content (breathing vs circumferential), quantify rise times, and benchmark against simplified models.'}
+        ]
+      },
+      {
+        slug:'drop-tower-fbg',
+        title:'Dynamic Drop Tower with FBG',
+        active:true,
+        cover:'assets/placeholder.svg',
+        blurb:'Compact impact rig with synchronized DAQ and FBG sensing.',
+        content:[
+          {type:'p', text:'A benchtop drop‑tower for repeatable impact loading with tight timing alignment across an FBG interrogator and electrical DAQ.'},
+          {type:'img', src:'assets/placeholder.svg', caption:'Rig CAD and fixture concept (placeholder)'},
+          {type:'p', text:'Supports rapid coupon iteration and synchronized high‑rate measurements.'}
+        ]
+      },
+      {
+        slug:'usli-2024',
+        title:'2024 USLI — Payload Engineer & Safety Officer',
+        cover:'assets/placeholder.svg',
+        blurb:'Led payload integration and mission safety; risk matrices & test protocols.',
+        content:[
+          {type:'p', text:'Owned payload interfaces and verification planning. Authored hazard analyses and risk‑mitigation matrices.'}
+        ]
+      },
+      {
+        slug:'boosted-quadcopter',
+        title:'Boosted Quadcopter Drone',
+        cover:'assets/Drone_Photo.png',
+        blurb:'5‑motor concept decoupling thrust from pitch/roll; field‑tested.',
+        content:[
+          {type:'p', text:'A coaxial center rotor provides lift while perimeter rotors handle attitude, decoupling thrust from pitch/roll.'},
+          {type:'img', src:'assets/Drone_CAD.png', caption:'CAD of boosted‑quad frame + coax module'},
+          {type:'img', src:'assets/Drone_Photo.png', caption:'Field test article'},
+          {type:'img', src:'assets/Attitude_Data.png', caption:'Attitude tracking vs time'},
+          {type:'img', src:'assets/PowerConsumption_Data.png', caption:'Power split between center vs quad motors'},
+          {type:'img', src:'assets/Drone_Flight.gif', caption:'Hover test (GIF)'},
+          {type:'img', src:'assets/Drone_Haulage.gif', caption:'Tether/haulage demo (GIF)'}
+        ]
+      },
+      {
+        slug:'autorotation-lander',
+        title:'Autorotation Lander',
+        cover:'assets/Autorotator_Prototype_1_Picture.png',
+        blurb:'Foldable low‑drift lander validated with drop tests and CFD.',
+        content:[
+          {type:'p', text:'Concept minimizes lateral drift while keeping touchdown rates gentle.'},
+          {type:'img', src:'assets/Autorotator_Prototype_1_Picture.png', caption:'Prototype lander'},
+          {type:'img', src:'assets/AutoRotator_CFD.png', caption:'CFD slice of velocity magnitude'}
+        ]
+      },
+      {
+        slug:'teaching-assistant',
+        title:'Teaching Assistant',
+        cover:'assets/placeholder.svg',
+        blurb:'TA for engineering coursework; coached teams on analysis and test planning.',
+        content:[
+          {type:'p', text:'Supported lab courses and capstone teams with testable requirements, verification planning, and clear technical writing.'}
+        ]
+      }
     ];
 
     const app=document.getElementById('app');
 
     function card(p){
       const a=document.createElement('a'); a.className='card'; a.href='#/p/'+p.slug;
-      a.innerHTML=`<img class="thumb" src="${p.cover}" alt="${p.title}"><div style="padding:10px 14px"><h3 style="margin:0">${p.title}</h3><p style="margin:6px 0 0">${p.blurb}</p></div>`;
+      a.innerHTML=`<img class="thumb" src="${p.cover}" alt="${p.title}">
+                   ${p.active ? '<span class="badge">Active</span>' : ''}
+                   <div style="padding:10px 14px"><h3 style="margin:0">${p.title}</h3>
+                   <p style="margin:6px 0 0">${p.blurb}</p></div>`;
       return a;
+    }
+
+    function renderBlocks(parent, blocks){
+      const c=document.createElement('div'); c.className='content';
+      (blocks||[]).forEach(b=>{
+        if(b.type==='p'){ const p=document.createElement('p'); p.textContent=b.text||''; c.appendChild(p); }
+        else if(b.type==='h2'){ const h=document.createElement('h3'); h.className='section-title'; h.textContent=b.text||''; c.appendChild(h); }
+        else if(b.type==='img'){ const fig=document.createElement('figure'); fig.innerHTML = `<img src="${b.src}" alt="${b.caption||''}"><figcaption class="caption">${b.caption||''}</figcaption>`; c.appendChild(fig); }
+        else if(b.type==='ul'){ const ul=document.createElement('ul'); (b.items||[]).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.appendChild(li); }); c.appendChild(ul); }
+      });
+      parent.appendChild(c);
     }
 
     function home(){
       app.innerHTML='';
       const hero=document.createElement('section'); hero.className='hero';
-      hero.innerHTML=`<div class="panel"><h1>Jonathan Zak</h1><p>Structures · Composites · High‑rate testing</p></div>
-                      <div class="panel"><img alt="headshot placeholder" style="aspect-ratio:1/1;width:min(360px,90%);background:linear-gradient(135deg,var(--vandy-metallic-gold-light),var(--vandy-metallic-gold-dark));border:var(--thick) solid var(--line)"></div>`;
+      hero.innerHTML=`<div class="panel"><h1>Jonathan Zak</h1><p>${intro}</p></div>
+                      <div class="panel"><img alt="headshot placeholder" style="aspect-ratio:1/1;width:min(360px,90%);background:linear-gradient(135deg,var(--goldL),var(--goldD));border:var(--thick) solid var(--line)"></div>`;
       app.appendChild(hero);
-      const grid=document.createElement('div'); grid.className='grid'; projects.forEach(p=>grid.appendChild(card(p))); app.appendChild(grid);
+
+      const grid=document.createElement('div'); grid.className='grid';
+      projects.forEach(p=>grid.appendChild(card(p)));
+      app.appendChild(grid);
     }
 
     function project(slug){
       const p=projects.find(x=>x.slug===slug); if(!p){location.hash='#/'; return;}
-      app.innerHTML=`<div class="row" style="margin:16px 0"><a class="mark" href="#/">← BACK</a></div>
-                     <section class="panel"><h1>${p.title}</h1><img src="${p.cover}" style="width:100%;border:var(--thick) solid var(--line)"></section>`;
-      const gal=document.createElement('section'); gal.className='grid';
-      (p.gallery||[]).forEach(g=>{ const fig=document.createElement('div'); fig.className='panel'; fig.innerHTML=`<img src="${g.src}" style="width:100%">`; gal.appendChild(fig); });
-      app.appendChild(gal);
+      app.innerHTML='';
+      const back=document.createElement('div'); back.className='row'; back.style.margin='16px 0';
+      back.innerHTML='<a class="mark" href="#/">← BACK</a>';
+      app.appendChild(back);
+
+      const head=document.createElement('section'); head.className='panel';
+      head.innerHTML=`<h1 style="display:flex;gap:10px;align-items:center">${p.title} ${p.active?'<span class="badge" style="position:static">Active</span>':''}</h1>
+                      <img src="${p.cover}" style="width:100%;border:var(--thick) solid var(--line)">`;
+      app.appendChild(head);
+
+      renderBlocks(app, p.content);
     }
 
     function router(){
