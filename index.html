@@ -1,295 +1,108 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jonathan Zak — Portfolio</title>
-  <meta name="description" content="Projects in spacecraft structures, composites, testing, and mechatronics." />
   <meta name="color-scheme" content="light dark">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* ======= Vanderbilt brutalist theme ======= */
-    :root{
-      --vandy-black:#1C1C1C;
-      --vandy-flat-gold:#CFAE70;
-      --vandy-metallic-gold-light:#FEEEB6;
-      --vandy-metallic-gold-dark:#B49248;
-      --bg:#ffffff;
-      --fg:#000000;
-      --muted:#444;
-      --card:#ffffff;
-      --line:#000000;
-      --accent: var(--vandy-flat-gold);
-      --radius: 0px; /* brutalist */
-      --thick: 2.5px; /* border weight */
-    }
-    [data-theme="dark"]{ --bg:#0b0c0d; --fg:#f7f7f7; --muted:#bdbdbd; --card:#0b0c0d; --line:#f7f7f7; --accent: var(--vandy-flat-gold); }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial}
-    h1,h2,h3{font-family:Antonio, Inter, system-ui}
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:1120px; margin:0 auto; padding:28px 18px}
-    header{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:var(--thick) solid var(--line)}
-    .row{display:flex; align-items:center; gap:14px}
-    .space{flex:1}
-    .btn{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border:var(--thick) solid var(--line); background:var(--card); border-radius:0; font-weight:700}
-    .btn:hover{transform:translate(-1px,-1px)}
-    .search{padding:10px 12px; border:var(--thick) solid var(--line); width:260px; background:var(--card); color:var(--fg)}
-    .goldbar{height:10px; background:linear-gradient(90deg,var(--vandy-metallic-gold-light), var(--vandy-metallic-gold-dark)); border:var(--thick) solid var(--line); border-left:none; border-right:none}
-
-    /* Home */
-    .hero{display:grid; grid-template-columns: 1.15fr .85fr; gap:28px; align-items:stretch; padding:36px 0}
-    .panel{border:var(--thick) solid var(--line); background:var(--card); padding:24px}
-    .hero h1{font-size:clamp(32px,5.2vw,64px); line-height:1.05; margin:0 0 12px}
-    .headshot{border:var(--thick) solid var(--line); aspect-ratio:1/1; width:min(360px,90%); background:linear-gradient(135deg, var(--vandy-metallic-gold-light), var(--vandy-metallic-gold-dark)); display:block; object-fit:cover}
-
-    /* Grid */
-    .grid{display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:18px}
+    :root{--vandy-flat-gold:#CFAE70;--vandy-metallic-gold-light:#FEEEB6;--vandy-metallic-gold-dark:#B49248;--bg:#fff;--fg:#000;--line:#000;--thick:2.5px}
+    @media (prefers-color-scheme: dark){:root{--bg:#0b0c0d;--fg:#f7f7f7;--line:#f7f7f7}}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 Inter,system-ui}
+    .wrap{max-width:1120px;margin:0 auto;padding:28px 18px}
+    header{position:sticky;top:0;background:var(--bg);border-bottom:var(--thick) solid var(--line);z-index:10}
+    .row{display:flex;align-items:center;gap:14px}.space{flex:1}
+    .mark{display:inline-flex;align-items:center;justify-content:center;border:var(--thick) solid var(--line);padding:8px 10px;font-weight:800}
+    .icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:var(--thick) solid var(--line)}
+    .icon svg{width:22px;height:22px}
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;padding:36px 0}
+    .panel{border:var(--thick) solid var(--line);padding:24px;background:#fff0}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
     @media (max-width:960px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:640px){.grid{grid-template-columns:1fr}}
-    .card{border:var(--thick) solid var(--line); background:var(--card); display:flex; flex-direction:column}
-    .thumb{aspect-ratio:16/9; width:100%; object-fit:cover; border-bottom:var(--thick) solid var(--line)}
-    .card h3{font-size:22px; margin:10px 14px 6px}
-    .blurb{margin:0 14px 16px; color:#333}
-    .card:hover{background:var(--vandy-metallic-gold-light)}
-
-    /* Project page */
-    .project-hero{border:var(--thick) solid var(--line); background:var(--card); padding:18px}
-    .project-hero img, .project-hero video{width:100%; height:auto; border:var(--thick) solid var(--line)}
-    .gallery{display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; margin-top:14px}
-    @media (max-width:800px){.gallery{grid-template-columns:1fr}}
-    .caption{font-size:12px; color:#555; margin-top:4px}
-
-    footer{margin:46px 0 60px; color:#666; border-top:var(--thick) solid var(--line)}
+    .card{border:var(--thick) solid var(--line)}.thumb{aspect-ratio:16/9;width:100%;object-fit:cover;border-bottom:var(--thick) solid var(--line)}
+    footer{margin:46px 0 60px;color:#666;border-top:var(--thick) solid var(--line)}
   </style>
 </head>
 <body>
   <header>
-    <div class="wrap row" style="padding:16px 18px;">
-      <div class="row" style="gap:10px">
-        <span class="btn">JZ</span>
-        <a class="btn" id="homeLink" href="#/">HOME</a>
-        <a class="btn" href="#/projects">PROJECTS</a>
-        <a class="btn" href="#/about">ABOUT</a>
-      </div>
+    <div class="wrap row">
+      <span class="mark">JZ</span>
       <div class="space"></div>
-      <input id="search" class="search" placeholder="Search projects…" />
-      <button id="themeToggle" class="btn">THEME</button>
-      <a class="btn" href="resume.pdf" download>RESUME</a>
-      <a class="btn" href="mailto:you@email.com">CONTACT</a>
+      <a class="icon" href="mailto:jonathan.w.zak@vanderbilt.edu" title="Email Jonathan" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a class="icon" href="https://www.linkedin.com/in/jonathan-zak-76b265225/" target="_blank" rel="noreferrer" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 012.5 6 2.5 2.5 0 114.98 3.5zM2 8h6v14H2zM9 8h5v2.2h.07C15 9 16.6 8 19 8c4.9 0 5 3.4 5 7.8V22h-6v-6.4c0-1.5-.03-3.6-2.2-3.6-2.2 0-2.8 1.7-2.8 3.5V22H9z"/></svg>
+      </a>
     </div>
   </header>
 
-  <main id="app" class="wrap"></main>
+  <main id="app" class="wrap">
+    <noscript>This site requires JavaScript to render project cards.</noscript>
+  </main>
 
   <footer class="wrap">
-    <p>© <span id="year"></span> Jonathan Zak — Built with vanilla HTML/CSS/JS. Hosted on GitHub Pages.</p>
+    <p>© <span id="year"></span> Jonathan Zak — Portfolio</p>
   </footer>
 
   <script>
-    const pref = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light');
-    document.documentElement.setAttribute('data-theme', pref);
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ---- Content ----
-    const projects = [
-      {
-        slug:'cfrp-shock-tube',
-        title:'Carbon Fiber Shock Tube Research',
-        cover:'assets/placeholder.svg',
-        blurb:'Replacing a standard section with a CFRP cylinder to capture dynamic hoop/axial strain under incident & reflected shocks.',
-        tags:['Composites','Shock‑tube','FBG','RSG'],
-        paragraphs:[
-          'I developed a test method by swapping a shock‑tube section with a carbon‑fiber cylinder, instrumented with FBG and resistance gauges to record hoop and axial strains as the shock passes and reflects.',
-          'The goal is to map mode content (m=0 breathing vs higher circumferential modes), quantify rise times, and benchmark against simplified models—toward safer reusable vehicle structures.'
-        ],
-        gallery:[
-          {type:'image', src:'assets/placeholder.svg', caption:'CFRP shock‑tube test section (placeholder – add photo)'}
-        ]
-      },
-      {
-        slug:'drop-tower-fbg',
-        title:'Dynamic Drop Tower with FBG',
-        cover:'assets/placeholder.svg',
-        blurb:'Compact impact rig with synchronized DAQ and FBG sensing for high‑rate material tests.',
-        tags:['Testing','DAQ','High‑rate'],
-        paragraphs:[
-          'I designed and built a benchtop drop‑tower for repeatable impact loading, with synchronized triggering across FBG interrogator and electrical DAQ.',
-          'The rig enables rapid iteration of fixtures and coupons, with sub‑millisecond timing alignment for strain and acceleration channels.'
-        ],
-        gallery:[
-          {type:'image', src:'assets/placeholder.svg', caption:'Tower CAD / setup (placeholder – add photo)'}
-        ]
-      },
-      {
-        slug:'usli-2024',
-        title:'2024 USLI — Payload Engineer & Safety Officer',
-        cover:'assets/placeholder.svg',
-        blurb:'Led payload integration and mission safety; authored risk matrices and test protocols.',
-        tags:['Rocketry','Systems','Safety'],
-        paragraphs:[
-          'As Payload Engineer and Safety Officer, I owned payload integration, interfaces, and verification planning.',
-          'I authored the risk mitigation matrices, ran hazard reviews, and coordinated test readiness with range safety.'
-        ],
-        gallery:[
-          {type:'image', src:'assets/placeholder.svg', caption:'Vehicle + payload integration (placeholder – add image)'}
-        ]
-      },
-      {
-        slug:'boosted-quadcopter',
-        title:'Boosted Quadcopter Drone',
-        cover:'assets/Drone_Photo.png',
-        blurb:'5‑motor concept decoupling thrust from pitch/roll; field tests quantify efficiency and control response.',
-        tags:['Controls','Mechatronics','Flight‑test'],
-        paragraphs:[
-          'I explored a 5‑motor “boosted quad” that decouples vertical thrust from pitch/roll torques via a coaxial center rotor. This allows attitude control without sacrificing as much lift margin.',
-          'We collected current/voltage/attitude telemetry to estimate power split between coaxial and perimeter motors and to compare commanded vs actual attitude responses.'
-        ],
-        gallery:[
-          {type:'image', src:'assets/Drone_CAD.png', caption:'CAD of boosted‑quad frame + coax unit'},
-          {type:'image', src:'assets/Drone_Photo.png', caption:'Field test article before flight'},
-          {type:'image', src:'assets/Attitude_Data.png', caption:'Attitude tracking vs time'},
-          {type:'image', src:'assets/PowerConsumption_Data.png', caption:'Power & power‑ratio across motors'},
-          {type:'image', src:'assets/Drone_Flight.gif', caption:'Flight clip — coax-assisted hover'},
-          {type:'image', src:'assets/Drone_Haulage.gif', caption:'Tether/haulage test'}
-        ]
-      },
-      {type:'image', src:'assets/Drone_Photo.png', caption:'Field test article before flight'},
-          {type:'image', src:'assets/Attitude_Data.png', caption:'Attitude tracking vs time'},
-          {type:'image', src:'assets/PowerConsumption_Data.png', caption:'Power & power‑ratio across motors'},
-          {type:'video', src:'assets/DroneFlight1.mov', caption:'Flight clip 1'},
-          {type:'video', src:'assets/DroneFlight2.mov', caption:'Flight clip 2'}
-        ]
-      },
-      {
-        slug:'autorotation-lander',
-        title:'Autorotation Lander',
-        cover:'assets/Autorotator_Prototype_1_Picture.png',
-        blurb:'Foldable low‑drift payload lander validated with ~400‑ft drop tests and CFD.',
-        tags:['Aero','CFD','Testing'],
-        paragraphs:[
-          'Designed a compact autorotative lander to minimize lateral drift during descent while providing gentle touchdown rates.',
-          'Validated concept using MATLAB/CFD modeling and field drops; analyzed rotor inflow and induced velocities.'
-        ],
-        gallery:[
-          {type:'image', src:'assets/Autorotator_Prototype_1_Picture.png', caption:'Prototype lander'},
-          {type:'image', src:'assets/AutoRotator_CFD.png', caption:'CFD slice of velocity magnitude'}
-        ]
-      },
-      {
-        slug:'teaching-assistant',
-        title:'Teaching Assistant',
-        cover:'assets/placeholder.svg',
-        blurb:'TA for engineering coursework; coached teams on analysis, test planning, and communication.',
-        tags:['Teaching','Mentorship'],
-        paragraphs:[
-          'Supported lab courses and capstone teams with guidance on problem decomposition, verification, and clear technical writing.',
-          'Led office hours and design reviews emphasizing testable requirements and risk controls.'
-        ],
-        gallery:[
-          {type:'image', src:'assets/placeholder.svg', caption:'Guest critique / lab (placeholder)'}
-        ]
-      }
+    const projects=[
+      {slug:'cfrp-shock-tube',title:'Carbon Fiber Shock Tube Research',cover:'assets/placeholder.svg',blurb:'CFRP section instrumented with FBG/RSG to capture dynamic hoop/axial strain.',gallery:[{type:'image',src:'assets/placeholder.svg'}]},
+      {slug:'drop-tower-fbg',title:'Dynamic Drop Tower with FBG',cover:'assets/placeholder.svg',blurb:'Compact impact rig with synchronized DAQ and FBG sensing.',gallery:[{type:'image',src:'assets/placeholder.svg'}]},
+      {slug:'usli-2024',title:'2024 USLI — Payload Engineer & Safety Officer',cover:'assets/placeholder.svg',blurb:'Led payload integration and mission safety; risk matrices & test protocols.',gallery:[{type:'image',src:'assets/placeholder.svg'}]},
+      {slug:'boosted-quadcopter',title:'Boosted Quadcopter Drone',cover:'assets/Drone_Photo.png',blurb:'5‑motor concept decoupling thrust from pitch/roll; field‑tested.',gallery:[
+        {type:'image',src:'assets/Drone_CAD.png'},
+        {type:'image',src:'assets/Drone_Photo.png'},
+        {type:'image',src:'assets/Attitude_Data.png'},
+        {type:'image',src:'assets/PowerConsumption_Data.png'},
+        {type:'image',src:'assets/Drone_Flight.gif'},
+        {type:'image',src:'assets/Drone_Haulage.gif'}
+      ]},
+      {slug:'autorotation-lander',title:'Autorotation Lander',cover:'assets/Autorotator_Prototype_1_Picture.png',blurb:'Foldable low‑drift lander validated with drop tests and CFD.',gallery:[
+        {type:'image',src:'assets/Autorotator_Prototype_1_Picture.png'},
+        {type:'image',src:'assets/AutoRotator_CFD.png'}
+      ]},
+      {slug:'teaching-assistant',title:'Teaching Assistant',cover:'assets/placeholder.svg',blurb:'TA for engineering coursework; coached teams on analysis and test planning.',gallery:[{type:'image',src:'assets/placeholder.svg'}]}
     ];
 
-    const app = document.getElementById('app');
-    const search = document.getElementById('search');
-
-    function homeView(){
-      app.innerHTML = '';
-      const hero = document.createElement('section');
-      hero.className = 'hero';
-      hero.innerHTML = `
-        <div class="panel">
-          <h1>Jonathan Zak</h1>
-          <p>Mechanical/Aerospace engineer focussed on <b>spacecraft structures</b>, <b>composites</b>, and <b>high‑rate testing</b>. I build rigs, write code, and ship results.</p>
-          <div class="row" style="gap:12px; margin-top:16px">
-            <a class="btn" href="https://github.com/YOUR-USERNAME" target="_blank" rel="noreferrer">GITHUB</a>
-            <a class="btn" href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noreferrer">LINKEDIN</a>
-          </div>
-        </div>
-        <div class="panel" style="display:flex; align-items:center; justify-content:center">
-          <img class="headshot" src="assets/headshot.jpg" alt="Headshot of Jonathan Zak (add assets/headshot.jpg)" />
-        </div>`;
-      app.appendChild(hero);
-
-      const gridSec = document.createElement('section');
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      const q = (search.value || '').toLowerCase();
-      projects.filter(p => !q || (p.title + ' ' + p.blurb + ' ' + (p.tags || []).join(' ')).toLowerCase().includes(q))
-              .forEach(p => grid.appendChild(card(p)));
-      gridSec.appendChild(grid);
-      app.appendChild(gridSec);
-    }
+    const app=document.getElementById('app');
 
     function card(p){
-      const a = document.createElement('a');
-      a.className = 'card';
-      a.href = '#/p/' + p.slug;
-      a.innerHTML = `
-        <img class="thumb" src="${p.cover}" alt="${p.title} cover image" />
-        <h3>${p.title}</h3>
-        <p class="blurb">${p.blurb}</p>`;
+      const a=document.createElement('a'); a.className='card'; a.href='#/p/'+p.slug;
+      a.innerHTML=`<img class="thumb" src="${p.cover}" alt="${p.title}"><div style="padding:10px 14px"><h3 style="margin:0">${p.title}</h3><p style="margin:6px 0 0">${p.blurb}</p></div>`;
       return a;
     }
 
-    function projectView(slug){
-      const p = projects.find(x => x.slug === slug);
-      if(!p){ location.hash = '#/'; return; }
-      app.innerHTML = '';
-      const back = document.createElement('div');
-      back.className = 'row'; back.style.margin = '18px 0';
-      back.innerHTML = `<a class="btn" href="#/">← BACK</a>`;
-      app.appendChild(back);
-
-      const hero = document.createElement('section');
-      hero.className = 'project-hero';
-      hero.innerHTML = `
-        <h1 style="margin:6px 0 10px">${p.title}</h1>
-        <img src="${p.cover}" alt="${p.title} hero image" />
-        ${p.paragraphs.map(t => `<p style='margin-top:10px'>${t}</p>`).join('')}`;
+    function home(){
+      app.innerHTML='';
+      const hero=document.createElement('section'); hero.className='hero';
+      hero.innerHTML=`<div class="panel"><h1>Jonathan Zak</h1><p>Structures · Composites · High‑rate testing</p></div>
+                      <div class="panel"><img alt="headshot placeholder" style="aspect-ratio:1/1;width:min(360px,90%);background:linear-gradient(135deg,var(--vandy-metallic-gold-light),var(--vandy-metallic-gold-dark));border:var(--thick) solid var(--line)"></div>`;
       app.appendChild(hero);
+      const grid=document.createElement('div'); grid.className='grid'; projects.forEach(p=>grid.appendChild(card(p))); app.appendChild(grid);
+    }
 
-      const gal = document.createElement('section');
-      gal.className = 'gallery';
-      (p.gallery || []).forEach(item => {
-        const fig = document.createElement('figure'); fig.style.margin = 0;
-        if(item.type === 'video'){
-          fig.innerHTML = `<video src="${item.src}" controls></video><figcaption class="caption">${item.caption||''}</figcaption>`;
-        }else{
-          fig.innerHTML = `<img src="${item.src}" alt="${item.caption || p.title}" style="width:100%; height:auto; border:var(--thick) solid var(--line)"><figcaption class="caption">${item.caption||''}</figcaption>`;
-        }
-        gal.appendChild(fig);
-      });
+    function project(slug){
+      const p=projects.find(x=>x.slug===slug); if(!p){location.hash='#/'; return;}
+      app.innerHTML=`<div class="row" style="margin:16px 0"><a class="mark" href="#/">← BACK</a></div>
+                     <section class="panel"><h1>${p.title}</h1><img src="${p.cover}" style="width:100%;border:var(--thick) solid var(--line)"></section>`;
+      const gal=document.createElement('section'); gal.className='grid';
+      (p.gallery||[]).forEach(g=>{ const fig=document.createElement('div'); fig.className='panel'; fig.innerHTML=`<img src="${g.src}" style="width:100%">`; gal.appendChild(fig); });
       app.appendChild(gal);
     }
 
     function router(){
-      const h = location.hash || '#/';
-      const parts = h.slice(2).split('/');
-      if(parts[0] === '' || parts[0] === 'projects' || parts[0] === 'about'){
-        homeView();
-      } else if(parts[0] === 'p' && parts[1]){
-        projectView(parts[1]);
-      } else {
-        homeView();
-      }
+      const h=location.hash||'#/', parts=h.slice(2).split('/');
+      if(parts[0]===''||parts[0]==='projects'||parts[0]==='about'){ home(); }
+      else if(parts[0]==='p'&&parts[1]){ project(parts[1]); }
+      else { home(); }
     }
-
-    const searchEl = document.getElementById('search');
     window.addEventListener('hashchange', router);
-    searchEl.addEventListener('input', router);
-    router();
+    window.addEventListener('DOMContentLoaded', router);
   </script>
 </body>
 </html>
-
