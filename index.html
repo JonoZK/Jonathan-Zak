@@ -103,13 +103,13 @@
         blurb:'Novel 6 motor drone design for increased power effeciency and haulage capabilities by decoupling thrust from pitch/roll; field tested',
         content:[
           {type:'p', text:"Starting in May 2024 myself and my lab colleagues, Jose Leonardo Brenes and Rais Nurhidajat, began work on a novel drone configuration. The motivation behind the project was to explore methods of increasing power effeciency of drones thus increasing their flight time and haulage capabilities. A typical quadcopter uses 4 radial motors to control the roll, pitch, and yaw as well as the thrust of the drone. As a consequence, controlling the attitude of the drone also effects the output thrust.Our team theorized that by adding a central coaxial motor to a quadcopter, the thrust and the attitude control could be effectively decoupled and therefore the power effeciency of the drone could be improved "},
-          {type:'img', src:'assets/Drone_CAD.png', caption:'Initial CAD Design of Boosted Quadcopter drone'},
+          {type:'img', src:'assets/Drone_CAD.png', caption:'Initial CAD Design of Boosted Quadcopter drone', width:'55%'},
           {type:'p', text:"With a goal of collecting attitude and power consumption data from the drone the team moved forward with the design, fabrication, and code for the drone. A powerful coaxial drone was chosen to provide the thrust and yaw control of the drone. The coaxial motor in reality consists of two contra-rotating motors to cancel out their respective torques, however by running the motors at differential rpm's and therefore torques, this way the yaw can be controlled. The 4 smaller quadcopter motors were sized to use less power and take advantage of long moment arms to control the roll and pitch of the drone. My primary contributions to the project included sizing the smaller quadcopter motors, 3D printing custom structural components of the drone, altering COTS drone parts to fit our needs, altering open-source Ardupilot code to integrate with our novel configuration, and perform data analysis after flight testing."},
-          {type:'img', src:'assets/Drone_Photo.png', caption:'Fully Built Drone during initial field testing'},
-          {type:'img', src:'assets/Attitude_Data.png', caption:'Attitude tracking vs time'},
-          {type:'img', src:'assets/PowerConsumption_Data.png', caption:'Power Consumption Metrics of Flight'},
+          {type:'img', src:'assets/Drone_Photo.png', caption:'Fully Built Drone during initial field testing', width:'55%'},
+          {type:'img', src:'assets/Attitude_Data.png', caption:'Attitude tracking vs time', width:'55%'},
+          {type:'img', src:'assets/PowerConsumption_Data.png', caption:'Power Consumption Metrics of Flight', width:'55%'},
           {type:'p', text:"Initial flight tests over the summer yielded promising results. The drone came to a weight of 5 lb and demonstrated stable flight including test cases of hauling a paylaod of 7 lb. The team was aiming for a power consumption ratio of 90% between the large coaxial motor and smaller quadcopter motors. Initial tests placed the ratio at approximatly 82%. Moving into the fall of 2024 as Leonardo left, I took over leadership of the project, while working alonside another colleague Andrew Noonan. Together we worked on increasing this power consumption ratio to 90%. The primary alterations were decreasing the size of the quadcopter motors while extending their moment arm to preserve controlling torque and further iterating our Ardupilot code to more effeciently control our all of our motors from the RC controller. After these modifictions the drone acheived a power ratio of 88%, close to our inital goal. Currently we are is discussions with the university Technology Tranfer Office to explore a patent on our design. Sample drone flight videos are shown below."},
-          {type:'img', src:'assets/Drone_Flight.gif', caption:'Hover and Manuevering test (GIF)'},
+          {type:'img', src:'assets/Drone_Flight.gif', caption:'Hover and Manuevering test (GIF)', width:'55%'},
           {type:'img', src:'assets/Drone_Haulage.gif', caption:'7lb of Haulage Test (GIF)'}
         ]
       },
@@ -146,16 +146,62 @@
       return a;
     }
 
-    function renderBlocks(parent, blocks){
-      const c=document.createElement('div'); c.className='content';
-      (blocks||[]).forEach(b=>{
-        if(b.type==='p'){ const p=document.createElement('p'); p.textContent=b.text||''; c.appendChild(p); }
-        else if(b.type==='h2'){ const h=document.createElement('h3'); h.className='section-title'; h.textContent=b.text||''; c.appendChild(h); }
-        else if(b.type==='img'){ const fig=document.createElement('figure'); fig.innerHTML = `<img src="${b.src}" alt="${b.caption||''}"><figcaption class="caption">${b.caption||''}</figcaption>`; c.appendChild(fig); }
-        else if(b.type==='ul'){ const ul=document.createElement('ul'); (b.items||[]).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.appendChild(li); }); c.appendChild(ul); }
-      });
-      parent.appendChild(c);
-    }
+<script>
+  function renderBlocks(parent, blocks){
+    const c = document.createElement('div');
+    c.className = 'content';
+
+    (blocks || []).forEach(b => {
+      if (b.type === 'p') {
+        const p = document.createElement('p');
+        p.textContent = b.text || '';
+        c.appendChild(p);
+
+      } else if (b.type === 'h2') {
+        const h = document.createElement('h3');
+        h.className = 'section-title';
+        h.textContent = b.text || '';
+        c.appendChild(h);
+
+      } else if (b.type === 'img') {
+        const fig = document.createElement('figure');
+
+        const img = document.createElement('img');
+        img.src = b.src;
+        img.alt = b.caption || '';
+
+        // NEW: per-image size controls
+        if (b.width)    img.style.width    = b.width;     // e.g. "60%" or "420px"
+        if (b.maxWidth) img.style.maxWidth = b.maxWidth;  // e.g. "600px"
+        if (b.width || b.maxWidth) {
+          img.style.display = 'block';
+          img.style.margin  = '0 auto';                   // center when narrower
+        }
+
+        fig.appendChild(img);
+
+        if (b.caption) {
+          const cap = document.createElement('figcaption');
+          cap.className = 'caption';
+          cap.textContent = b.caption;
+          fig.appendChild(cap);
+        }
+
+        c.appendChild(fig);
+
+      } else if (b.type === 'ul') {
+        const ul = document.createElement('ul');
+        (b.items || []).forEach(t => {
+          const li = document.createElement('li'); li.textContent = t; ul.appendChild(li);
+        });
+        c.appendChild(ul);
+      }
+    });
+
+    parent.appendChild(c);
+  }
+</script>
+
 
     function home(){
       app.innerHTML='';
