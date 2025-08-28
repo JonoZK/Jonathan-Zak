@@ -123,8 +123,27 @@
           {type:'img', src:'assets/Attitude_Data.png', caption:'Attitude tracking vs time', width:'55%'},
           {type:'img', src:'assets/PowerConsumption_Data.png', caption:'Power Consumption Metrics of Flight', width:'55%'},
           {type:'p', text:"Initial flight tests over the summer yielded promising results. The drone came to a weight of 5 lb and demonstrated stable flight including test cases of hauling a paylaod of 7 lb. The team was aiming for a power consumption ratio of 90% between the large coaxial motor and smaller quadcopter motors. Initial tests placed the ratio at approximatly 82%. Moving into the fall of 2024 as Leonardo left, I took over leadership of the project, while working alonside another colleague Andrew Noonan. Together we worked on increasing this power consumption ratio to 90%. The primary alterations were decreasing the size of the quadcopter motors while extending their moment arm to preserve controlling torque and further iterating our Ardupilot code to more effeciently control our all of our motors from the RC controller. After these modifictions the drone acheived a power ratio of 88%, close to our inital goal. Currently we are is discussions with the university Technology Tranfer Office to explore a patent on our design. Sample drone flight videos are shown below."},
-          {type:'img', src:'assets/Drone_Flight.gif', caption:'Hover and Manuevering test (GIF)', width:'55%'},
-          {type:'img', src:'assets/Drone_Haulage.gif', caption:'7lb of Haulage Test (GIF)'}
+          { type:'video',
+            sources: [
+              
+              { src:'assets/Drone_Flight.mp4',   type:'video/mp4'  }
+            ],
+            poster:'assets/Drone_Photo.png',
+            caption:'Hover and maneuvering',
+            autoplay:true, loop:true, muted:true, controls:false,
+            width:'55%'
+          },
+          { type:'video',
+            sources: [
+              
+              { src:'assets/Drone_Haulage.mp4',  type:'video/mp4'  }
+            ],
+            poster:'assets/Drone_Photo.png',
+            caption:'7 lb haulage test',
+            autoplay:true, loop:true, muted:true, controls:false,
+            width:'55%'
+          }
+
         ]
       },
       {
@@ -183,6 +202,55 @@
         const img = document.createElement('img');
         img.src = b.src;
         img.alt = b.caption || '';
+
+        else if (b.type === 'video') {
+  const fig = document.createElement('figure');
+
+  const v = document.createElement('video');
+  v.playsInline = true;        // iOS inline playback
+  if (b.autoplay) v.autoplay = true;
+  if (b.loop)     v.loop = true;
+  if (b.muted)    v.muted = true;  // required for autoplay on most browsers
+  if (b.controls) v.controls = true;
+  v.preload = 'metadata';
+  if (b.poster)   v.poster = b.poster;
+
+  // Optional per-video size controls (same as images)
+  if (b.width)    v.style.width    = b.width;     // e.g. "60%" or "600px"
+  if (b.maxWidth) v.style.maxWidth = b.maxWidth;  // e.g. "680px"
+  if (b.width || b.maxWidth) {
+    v.style.display = 'block';
+    v.style.margin  = '0 auto';
+  } else {
+    v.style.width = '100%';
+  }
+  v.style.border = 'var(--thick) solid var(--line)';
+
+  // Support one or many sources
+  // (Best: add both webm and mp4 for compatibility)
+  if (Array.isArray(b.sources)) {
+    b.sources.forEach(s => {
+      const src = document.createElement('source');
+      src.src = s.src;
+      if (s.type) src.type = s.type;
+      v.appendChild(src);
+    });
+  } else if (b.src) {
+    v.src = b.src;
+  }
+
+  fig.appendChild(v);
+
+  if (b.caption) {
+    const cap = document.createElement('figcaption');
+    cap.className = 'caption';
+    cap.textContent = b.caption;
+    fig.appendChild(cap);
+  }
+
+  c.appendChild(fig);
+}
+
 
         // NEW: per-image size controls
         if (b.width)    img.style.width    = b.width;     // e.g. "60%" or "420px"
