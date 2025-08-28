@@ -31,6 +31,20 @@
     .content figure{margin:12px 0}
     .content img{width:100%;height:auto;border:var(--thick) solid var(--line)}
     .section-title{margin:28px 0 8px;font-weight:800;border-bottom:var(--thick) solid var(--line);display:inline-block}
+    /* Cap and center the big hero image on project pages */
+    .hero-img{
+    width:100%;
+    height:auto;
+    border:var(--thick) solid var(--line);
+    max-width:680px;      /* tweak this number to taste */
+    display:block;
+    margin:0 auto;        /* center */
+}
+
+/* Center figures and captions on project pages */
+.content figure{ margin:12px auto; text-align:center; }
+.caption{ text-align:center; }
+
   </style>
 </head>
 <body>
@@ -215,20 +229,27 @@
       app.appendChild(grid);
     }
 
-    function project(slug){
-      const p=projects.find(x=>x.slug===slug); if(!p){location.hash='#/'; return;}
-      app.innerHTML='';
-      const back=document.createElement('div'); back.className='row'; back.style.margin='16px 0';
-      back.innerHTML='<a class="mark" href="#/">← BACK</a>';
-      app.appendChild(back);
+function project(slug){
+  const p = projects.find(x => x.slug === slug); if(!p){ location.hash='#/'; return; }
+  const cap = p.heroMaxWidth || '680px';         // default cap if none provided
+  app.innerHTML = '';
+  const back = document.createElement('div'); back.className='row'; back.style.margin='16px 0';
+  back.innerHTML = '<a class="mark" href="#/">← BACK</a>'; app.appendChild(back);
 
-      const head=document.createElement('section'); head.className='panel';
-      head.innerHTML=`<h1 style="display:flex;gap:10px;align-items:center">${p.title} ${p.active?'<span class="badge" style="position:static">Active</span>':''}</h1>
-                      <img src="${p.cover}" style="width:100%;border:var(--thick) solid var(--line)">`;
-      app.appendChild(head);
+  const head = document.createElement('section'); head.className='panel';
+  head.innerHTML = `
+    <h1 style="display:flex;gap:10px;align-items:center">
+      ${p.title} ${p.active?'<span class="badge" style="position:static">Active</span>':''}
+    </h1>
+    <img src="${p.cover}" alt="${p.title} cover"
+         style="width:100%;height:auto;border:var(--thick) solid var(--line);
+                max-width:${cap};display:block;margin:0 auto;">
+  `;
+  app.appendChild(head);
 
-      renderBlocks(app, p.content);
-    }
+  renderBlocks(app, p.content);
+}
+
 
     function router(){
       const h=location.hash||'#/', parts=h.slice(2).split('/');
