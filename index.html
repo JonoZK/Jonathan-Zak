@@ -180,31 +180,94 @@
     }
 
 
-    function renderBlocks(parent, blocks){
-    const c = document.createElement('div');
-    c.className = 'content';
-  
-    (blocks || []).forEach(b => {
-      if (b.type === 'p') {
-        const p = document.createElement('p');
-        p.textContent = b.text || '';
-        c.appendChild(p);
-  
-      } else if (b.type === 'h2') {
-        const h = document.createElement('h3');
-        h.className = 'section-title';
-        h.textContent = b.text || '';
-        c.appendChild(h);
-  
-      } else if (b.type === 'img') {
-        const fig = document.createElement('figure');
-        const img = document.createElement('img');
-        img.src = b.src;
-        img.alt = b.caption || '';
-  
-        // optional per-image sizing
-        if (b.width)    img.style.width    = b.width;     // "60%" or "600px"
-        if (b.maxWidt
+function renderBlocks(parent, blocks){
+  const c = document.createElement('div');
+  c.className = 'content';
+
+  (blocks || []).forEach(b => {
+    if (b.type === 'p') {
+      const p = document.createElement('p');
+      p.textContent = b.text || '';
+      c.appendChild(p);
+
+    } else if (b.type === 'h2') {
+      const h = document.createElement('h3');
+      h.className = 'section-title';
+      h.textContent = b.text || '';
+      c.appendChild(h);
+
+    } else if (b.type === 'img') {
+      const fig = document.createElement('figure');
+      const img = document.createElement('img');
+      img.src = b.src;
+      img.alt = b.caption || '';
+
+      // optional per-image sizing
+      if (b.width)    img.style.width    = b.width;     // "60%" or "600px"
+      if (b.maxWidth) img.style.maxWidth = b.maxWidth;  // "680px"
+      if (b.width || b.maxWidth) { img.style.display='block'; img.style.margin='0 auto'; }
+
+      fig.appendChild(img);
+      if (b.caption) {
+        const cap = document.createElement('figcaption');
+        cap.className = 'caption';
+        cap.textContent = b.caption;
+        fig.appendChild(cap);
+      }
+      c.appendChild(fig);
+
+    } else if (b.type === 'video') {
+      const fig = document.createElement('figure');
+      const v = document.createElement('video');
+      v.playsInline = true;
+      if (b.autoplay) v.autoplay = true;
+      if (b.loop)     v.loop = true;
+      if (b.muted)    v.muted = true; // required for autoplay
+      if (b.controls) v.controls = true;
+      v.preload = 'metadata';
+      if (b.poster)   v.poster = b.poster;
+
+      // optional per-video sizing
+      if (b.width)    v.style.width    = b.width;
+      if (b.maxWidth) v.style.maxWidth = b.maxWidth;
+      if (b.width || b.maxWidth) { v.style.display='block'; v.style.margin='0 auto'; }
+      else { v.style.width = '100%'; }
+      v.style.border = 'var(--thick) solid var(--line)';
+
+      if (Array.isArray(b.sources)) {
+        b.sources.forEach(s => {
+          const src = document.createElement('source');
+          src.src = s.src;
+          if (s.type) src.type = s.type;
+          v.appendChild(src);
+        });
+      } else if (b.src) {
+        v.src = b.src;
+      }
+
+      fig.appendChild(v);
+      if (b.caption) {
+        const cap = document.createElement('figcaption');
+        cap.className = 'caption';
+        cap.textContent = b.caption;
+        fig.appendChild(cap);
+      }
+      c.appendChild(fig);
+
+    } else if (b.type === 'ul') {
+      const ul = document.createElement('ul');
+      (b.items || []).forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        ul.appendChild(li);
+      });
+      c.appendChild(ul);
+    }
+  });
+
+  parent.appendChild(c);
+}
+
   
   
   
