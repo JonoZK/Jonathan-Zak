@@ -84,9 +84,16 @@
         cover:'assets/Shock_Tube_integration.jpg',
         blurb:'Structural Health Monitoring of carbon fiber airframes in collaboration with NASA Armstrong. Shock Tube based test facility',
         content:[
-          {type:'p', text:'We swap a standard shock‑tube section with a carbon‑fiber cylinder instrumented with FBG + RSG to capture hoop and axial dynamic strain as the wave passes and reflects.'},
-          {type:'img', src:'assets/placeholder.svg', caption:'CFRP section test article (placeholder — add real photo)'},
-          {type:'p', text:'Goals: identify mode content (breathing vs circumferential), quantify rise times, and benchmark against simplified models.'}
+          {type:'p', text:`In conjunction with the dynamic drop tower facility, I am currently developing a custom shock tube test facility to study the dynamic strain response of carbon fiber cylinders under high-rate loading. For a detailed background on my ongoing carbon fiber research please refer to the dynamic drop tower project as it is first in chronological order. My goal with the shock tube test facility is to deliver high-rate pressure loading to carbon fiber cylinders by developing an attachment to an existing steel shock tube, where my carbon fiber cylinders can be attached. 
+ A central focus of my work has been the instrumentation setup, where I integrated both Fiber Bragg Grating (FBG) sensors and resistive strain gauges (RSGs) to capture hoop and axial strain during shock events. To support these high-speed measurements, I designed a data acquisition workflow using a National Instruments DAQ and LabVIEW interface, ensuring synchronization and clean signal capture at high sampling rates. This instrumentation framework lays the foundation for extracting meaningful strain data in complex, transient loading environments.
+`},
+          {type:'img', src:'assets/Test_Section_CAD.png', caption:'Carbon Fiber cylinder attatchment CAD'},
+          {type:'img', src:'assets/Machining_Picture.jpg', caption:'CNCing process of custom flange'},
+          {type:'p', text:`To physically interface the shock tube with carbon fiber test sections, I designed and machined custom aluminum flanges using CNC milling and manual finishing techniques. These flanges provide precise sealing and load transfer between the pressure-driven shock tube and the composite cylinders, while also allowing for repeatable installation of test specimens. This machining effort not only ensured robust mechanical connections but also allowed flexibility in adapting the facility for different specimen geometries.
+Safety was also a key design driver throughout this project. I constructed a steel mesh safety cage around the shock tube to contain debris in the unlikely event of cylinder rupture, drawing on best practices from aerospace labs and defense research facilities. With the initial setup complete, I have already performed early benchmarking tests on my composite cylinders to validate system performance, calibrating sensors and verifying pressure wave consistency through the tube. These results confirmed both the functionality of the facility and the reliability of the instrumentation, giving me confidence as I progress toward more advanced testing campaigns on carbon fiber aerospace structures. This is my most ongoing work and will lead to my masters thesis, in the future I will investigate the strain response over repeated dynamic shock loading, the effects of different fiber layup configurations, and developing a multi-physics FEM simulation to compare with experimental data. 
+`},
+         {type:'img', src:'assets/Shock_Tube_integration.jpg', caption:'Integrated instrumented carbon fiber cylinder on shock tube'},
+         {type:'img', src:'assets/Benchmarking_Data.png', caption:'Benchmarking strain data for initial shock tube tests'}, 
         ]
       },
       {
