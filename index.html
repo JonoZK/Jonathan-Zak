@@ -104,10 +104,20 @@
       {
         slug:'usli-2024',
         title:'2024 USLI — Payload Engineer & Safety Officer',
-        cover:'assets/PDS_FullAssembly.png',
+        cover:'assets/3532_PDS_FullAssembly.png',
         blurb:'NASA USLI competition for design of a deployable drone during rocket flight. Led payload integration and mission safety; risk matrices & test protocols.Winner of payload design award',
         content:[
-          {type:'p', text:'Owned payload interfaces and verification planning. Authored hazard analyses and risk‑mitigation matrices.'}
+          {type:'p', text:"During my senior year, I was selected to join Vanderbilt University’s Rocket Competition team, where we competed against over 50 other universities in the NASA Student Launch Challenge. The 2024 challenge required teams to design a lander that could be deployed at 400 feet above ground level during rocket descent, land under human survivable conditions, and decelerate without a parachute. Our solution was a remotely deployed coaxial drone inspired by NASA’s Ingenuity drone.
+As the payload integration engineer, I was responsible for the Payload Deployment System (PDS), which needed to support and protect our 11 lb. drone throughout rocket flight and then deploy it in a stable manner at precisely 400 ft. I also served as the team’s Safety Officer and performed structural analysis of the vehicle’s load path. Designing the PDS required balancing several unique challenges: integrating the drone’s unconventional form factor into the rocket, ensuring deployment did not impart excessive momentum during startup, and developing an autonomous release system that functioned only after receiving Range Safety Officer (RSO) approval. This work required close collaboration with both the payload and vehicle teams to ensure proper integration.
+"},
+          {type:'img', src:'assets/311_Mission_CONOPS.png', caption:'Mission Concecpt of Operations for 2024 USLI Challange', width:'55%'},
+          {type:'p', text:"The final PDS design incorporated two electro-mechanical rotary latches that secured the drone via striker pins offset from the rocket centerline to avoid interference with the coaxial propulsion system. These latches were fastened to a custom CNC-machined aluminum bulk plate, which transferred loads through four threaded rods running between fore and aft bulk plates. Two 3D-printed Onyx centering plates improved assembly and reduced the risk of buckling. To accommodate the drone, the payload team and I developed foldable propellers, which were protected in-flight by a central “protection tube” secured to the aft bulk plate. For separation detection, neodymium magnets were bonded to the fore bulk plate, triggering hall effect sensors that initiated the drone’s startup sequence once released.
+The deployment electronics were developed with the electrical engineering team. We built the system around a Teensy 4.0 microcontroller and a TBS Crossfire RF link, chosen for its reliability and secure frequency-hopping protocol. The software activated upon rocket launch, detected apogee through an altimeter, and continuously monitored altitude. Once the vehicle descended below 400 ft and received an RSO approval signal, the microcontroller sent a release command to the latches, initiating the drone’s mission.
+"}
+          {type:'img', src:'assets/3535_PDS_CNC.jpg', caption:'CNC operation for latch bulk plate', width:'55%'},
+          {type:'img', src:'assets/3536_PDS_Allcomponents.png', caption:'All Components of the PDS sub-system', width:'55%'},
+          {type:'p', text:""},
+          {type:'p', text:""},
         ]
       },
       {
