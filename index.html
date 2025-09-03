@@ -111,16 +111,26 @@
 As the payload integration engineer, I was responsible for the Payload Deployment System (PDS), which needed to support and protect our 11 lb. drone throughout rocket flight and then deploy it in a stable manner at precisely 400 ft. I also served as the team’s Safety Officer and performed structural analysis of the vehicle’s load path. Designing the PDS required balancing several unique challenges: integrating the drone’s unconventional form factor into the rocket, ensuring deployment did not impart excessive momentum during startup, and developing an autonomous release system that functioned only after receiving Range Safety Officer (RSO) approval. This work required close collaboration with both the payload and vehicle teams to ensure proper integration.
 "},
           {type:'img', src:'assets/311_Mission_CONOPS.png', caption:'Mission Concecpt of Operations for 2024 USLI Challange', width:'55%'},
-          {type:'p', text:"The final PDS design incorporated two electro-mechanical rotary latches that secured the drone via striker pins offset from the rocket centerline to avoid interference with the coaxial propulsion system. These latches were fastened to a custom CNC-machined aluminum bulk plate, which transferred loads through four threaded rods running between fore and aft bulk plates. Two 3D-printed Onyx centering plates improved assembly and reduced the risk of buckling. To accommodate the drone, the payload team and I developed foldable propellers, which were protected in-flight by a central “protection tube” secured to the aft bulk plate. For separation detection, neodymium magnets were bonded to the fore bulk plate, triggering hall effect sensors that initiated the drone’s startup sequence once released.
+          {type:'p', text:`The final PDS design incorporated two electro-mechanical rotary latches that secured the drone via striker pins offset from the rocket centerline to avoid interference with the coaxial propulsion system. These latches were fastened to a custom CNC-machined aluminum bulk plate, which transferred loads through four threaded rods running between fore and aft bulk plates. Two 3D-printed Onyx centering plates improved assembly and reduced the risk of buckling. To accommodate the drone, the payload team and I developed foldable propellers, which were protected in-flight by a central “protection tube” secured to the aft bulk plate. For separation detection, neodymium magnets were bonded to the fore bulk plate, triggering hall effect sensors that initiated the drone’s startup sequence once released.
 The deployment electronics were developed with the electrical engineering team. We built the system around a Teensy 4.0 microcontroller and a TBS Crossfire RF link, chosen for its reliability and secure frequency-hopping protocol. The software activated upon rocket launch, detected apogee through an altimeter, and continuously monitored altitude. Once the vehicle descended below 400 ft and received an RSO approval signal, the microcontroller sent a release command to the latches, initiating the drone’s mission.
-"}
+`},
           {type:'img', src:'assets/3535_PDS_CNC.jpg', caption:'CNC operation for latch bulk plate', width:'55%'},
           {type:'img', src:'3511_PDS_Sequence.png', caption:'PDS operation flow chart', width:'55%'},
           {type:'img', src:'assets/3536_PDS_Allcomponents.png', caption:'All Components of the PDS sub-system', width:'55%'},
           {type:'img', src:'assets/3532_PDS_FullAssembly.png', caption:'Fully Assembeled Payload Deployment System', width:'55%'},
-          {type:'p', text:"The PDS underwent multiple rounds of ground testing and four flight tests, including at the NASA competition. On competition day, it performed flawlessly, making us one of only two teams to successfully deploy our payload and earning us the Payload Design Award. The system has since been adopted as a legacy design for future Vanderbilt USLI projects, continuing to demonstrate reliability with another successful integration during the 2025 project cycle."},
-          {type:'img', src:'assets/Drone_Deployment_test.mp4', caption:'RF actuated drone deployment test from rocket stowed configuration', width:'55%'},
-          {type:'img', src:'assets/In_Flight_Deployment.mp4', caption:'Successful drone deployment(tethered) during rocket flight (seen at bottom)', width:'55%'},
+          {type:'p', text:`The PDS underwent multiple rounds of ground testing and four flight tests, including at the NASA competition. On competition day, it performed flawlessly, making us one of only two teams to successfully deploy our payload and earning us the Payload Design Award. The system has since been adopted as a legacy design for future Vanderbilt USLI projects, continuing to demonstrate reliability with another successful integration during the 2025 project cycle.`},
+          { type:'video',
+    sources: [{ src:'assets/Drone_Deployment_test.mp4', type:'video/mp4' }],
+    poster:'assets/3532_PDS_FullAssembly.png',
+    caption:'RF-actuated drone deployment test from rocket-stowed configuration',
+    autoplay:true, loop:true, muted:true, controls:false, width:'55%'
+  },
+         { type:'video',
+          sources: [{ src:'assets/In_Flight_Deployment.mp4', type:'video/mp4' }],
+          poster:'assets/3532_PDS_FullAssembly.png',
+          caption:'Successful (tethered) drone deployment during rocket flight',
+          autoplay:true, loop:true, muted:true, controls:false, width:'55%'
+        }
           {type:'p', text:"In addition to PDS contributions, my role as Safety Officer provided valuable experience in system integration. Writing risk mitigation matrices required evaluating how failures in propulsion, avionics, recovery, and payload systems could interact and cascade. This process taught me to approach design holistically, weighing both innovation and reliability, and deepened my understanding of how complex subsystems must work together in a high-stakes aerospace environment."},
         ]
       },
