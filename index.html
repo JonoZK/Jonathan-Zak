@@ -33,18 +33,28 @@
     .section-title{margin:28px 0 8px;font-weight:800;border-bottom:var(--thick) solid var(--line);display:inline-block}
     /* Cap and center the big hero image on project pages */
     .hero-img{
-    width:100%;
-    height:auto;
-    border:var(--thick) solid var(--line);
-    max-width:680px;      /* tweak this number to taste */
-    display:block;
-    margin:0 auto;        /* center */
-}
+      width:100%;
+      height:auto;
+      border:var(--thick) solid var(--line);
+      max-width:680px;
+      display:block;
+      margin:0 auto;
+    }
+    /* Center figures and captions on project pages */
+    .content figure{ margin:12px auto; text-align:center; }
+    .caption{ text-align:center; }
 
-/* Center figures and captions on project pages */
-.content figure{ margin:12px auto; text-align:center; }
-.caption{ text-align:center; }
-
+    /* --- Filter chips --- */
+    .filters { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 18px; }
+    .chip {
+      display:inline-flex; align-items:center;
+      height:36px; padding:0 12px; font-weight:800;
+      border:var(--thick) solid var(--line); cursor:pointer; user-select:none;
+      background:transparent;
+    }
+    .chip[aria-pressed="true"]{ background:var(--goldL); outline:2px solid var(--goldD); }
+    .chip:focus{ outline:3px dotted var(--line); outline-offset:2px; }
+    .clear-chip{ margin-left:auto }
   </style>
 </head>
 <body>
@@ -74,6 +84,24 @@
     // ---- Customize here ----
     const intro = "I am a Master's Student at Vanderbilt University studying Mechanical Engineering. My research work relates to the building test facilities for composite aerospace structures, particularily studying material resposne to dynamic loading in the context of structural health monitoring. In addition I have completed a number of rocketry, drone, and other aerospace flight projects. I hope to apply  my skills into test engineering, R&D, or design engineering role. In my freetime I enjoy mountaineering, playing soccer, and cooking!";
 
+    // --- Topics + filter state ---
+    const TOPICS = [
+      'Material Science','Mechanical Design','MATLAB','Computer-Aided Manufacturing',
+      'LabVIEW','Python','Finite Element Analysis','Computational Fluid Dynamics',
+      'Flight Testing','Rocketry','Fluid Dynamics'
+    ];
+    const activeFilters = new Set();
+
+    function toggleFilter(topic){
+      if(activeFilters.has(topic)) activeFilters.delete(topic); else activeFilters.add(topic);
+      renderGrid(); updateChipStates();
+    }
+    function clearFilters(){ activeFilters.clear(); renderGrid(); updateChipStates(); }
+    function passesFilters(p){
+      if(activeFilters.size===0) return true;
+      return (p.tags||[]).some(t => activeFilters.has(t));
+    }
+
     // Each project uses an ordered 'content' array so you can interleave text and images with captions.
     // Supported block types: 'h2', 'p', 'img', 'ul' (array of strings).
     const projects=[
@@ -83,6 +111,7 @@
         active:true,
         cover:'assets/Shock_Tube_integration.jpg',
         blurb:'Structural Health Monitoring of carbon fiber airframes in collaboration with NASA Armstrong. Shock Tube based test facility',
+        tags:['Computer-Aided Manufacturing','LabVIEW','Mechanical Design','Finite Element Analysis','Fluid Dynamics','Material Science'],
         content:[
           {type:'p', text:`In conjunction with the dynamic drop tower facility, I am currently developing a custom shock tube test facility to study the dynamic strain response of carbon fiber cylinders under high-rate loading. For a detailed background on my ongoing carbon fiber research please refer to the dynamic drop tower project as it is first in chronological order. My goal with the shock tube test facility is to deliver high-rate pressure loading to carbon fiber cylinders by developing an attachment to an existing steel shock tube, where my carbon fiber cylinders can be attached. 
  A central focus of my work has been the instrumentation setup, where I integrated both Fiber Bragg Grating (FBG) sensors and resistive strain gauges (RSGs) to capture hoop and axial strain during shock events. To support these high-speed measurements, I designed a data acquisition workflow using a National Instruments DAQ and LabVIEW interface, ensuring synchronization and clean signal capture at high sampling rates. This instrumentation framework lays the foundation for extracting meaningful strain data in complex, transient loading environments.
@@ -93,7 +122,7 @@
 Safety was also a key design driver throughout this project. I constructed a steel mesh safety cage around the shock tube to contain debris in the unlikely event of cylinder rupture, drawing on best practices from aerospace labs and defense research facilities. With the initial setup complete, I have already performed early benchmarking tests on my composite cylinders to validate system performance, calibrating sensors and verifying pressure wave consistency through the tube. These results confirmed both the functionality of the facility and the reliability of the instrumentation, giving me confidence as I progress toward more advanced testing campaigns on carbon fiber aerospace structures. This is my most ongoing work and will lead to my masters thesis, in the future I will investigate the strain response over repeated dynamic shock loading, the effects of different fiber layup configurations, and developing a multi-physics FEM simulation to compare with experimental data. 
 `},
          {type:'img', src:'assets/Shock_Tube_integration.jpg', caption:'Integrated instrumented carbon fiber cylinder on shock tube', width:'55%'},
-         {type:'img', src:'assets/Benchmarking_Data.png', caption:'Benchmarking strain data for initial shock tube tests', width:'55%'}, 
+         {type:'img', src:'assets/Benchmarking_Data.png', caption:'Benchmarking strain data for initial shock tube tests', width:'55%'} 
         ]
       },
       {
@@ -102,18 +131,19 @@ Safety was also a key design driver throughout this project. I constructed a ste
         active:true,
         cover:'assets/Drop_Tower.jpg',
         blurb:'Structural Health Monitoring of carbon fiber airframes in collaboration with NASA Armstrong. Drop tower test facility',
+        tags:['Computer-Aided Manufacturing','LabVIEW','Mechanical Design','Finite Element Analysis','Material Science','MATLAB'],
         content:[
           {type:'p', text:`As my primary graduate research I took over ongoing  structural health monitoring (SHM) research on carbon fiber composite materials through the use of Fiber Bragg Gratings (FBG’s). Fiber Bragg Gratings (FBGs) work by reflecting a specific Bragg wavelength, created when periodic variations in refractive index are inscribed into an optical fiber. When the fiber experiences tensile or compressive strain, the spacing of these gratings changes, causing a shift in the reflected wavelength that can be measured to determine strain with high accuracy. Unlike traditional resistive strain gauges (RSGs), FBGs support multiplexing, allowing many sensing points along a single fiber for fine spatial resolution, while also being immune to electromagnetic interference, a major advantage in aerospace applications. They also simplify integration by reducing wiring complexity, signal conditioning hardware, and overall system mass. Our goal with the research is to study the strain response of carbon fiber cylinders (analogous to vehicle airframes) under repeated dynamic loading using FBG’s. The implementation of the FBG’s was made possible with the collaboration of the Fiber Optic Sensing System (FOSS) lab at NASA Armstrong Flight Research Center (AFRC). I was able to spend 4 days with the FOSS team to learn about implementing FBG’s, their operational principles, and the receiving a interrogator system for collecting the reflected light spectrum of the FBG’s. `},
           {type:'img', src:'assets/FBG_Operation_Schematic.png', caption:'Fiber Bragg Grating operational principle', width:'80%'},
           {type:'p', text:`The previous researcher on the project, Thomas Colocci, constructed a dynamic drop tower to deliver calibrated dynamic impact loads to the carbon fiber cylinders. One of my first tasks was to perfect the dynamic impact tower, improving its ease of function, increase the precision of the tower, and improve the data acquisition process while using the tower. To improve the ease of function of the tower, I integrated a stepper motor into the drop tower, allowing the drop plate to be lifted to precise heights instead of the previous method of manual lifting. I also improved the electro-magnet release system developed by Thomas to allow for the drop plate to be released on command through the flip of a switch. To address reliability issues, I replaced the main linear rails of the tower to include V-shape extrusion for the drop plate wheels to move on, while also allowing the wheels to be individually tensioned allowing the system to be easily adjusted. I also designed custom CNC manufactured brackets for the drop plate to interface with the drop tower rails.  Lastly I integrated a time-of-flight sensor to trigger data collection when the drop plate reached the carbon fiber test specimen, allowing for the 35 KHz data from the FBG’s to be collected efficiently and to always capture the moment of impact. These efforts had the outcome of increasing the drop tower repeatability, going from a range of 15% of impact energy for a given drop height to 2%. `},
           {type:'img', src:'assets/Re-Designed_Gantry.png', caption:'Redesigned Gantry drop plate assembly', width:'80%'},
           {type:'img', src:'assets/Drop_Tower.jpg', caption:'Dynamic Drop Tower test facility', width:'55%'},
-           { type:'video',
-    sources: [{ src:'assets/Drop_Tower_Operation.mp4', type:'video/mp4' }],
-    poster:'assets/Drop_Tower.jpg',
-    caption:'Drop tower operation of lifting drop plate and dropping onto test specimein',
-    autoplay:true, loop:true, muted:true, controls:false, width:'75%'
-  },
+          { type:'video',
+            sources: [{ src:'assets/Drop_Tower_Operation.mp4', type:'video/mp4' }],
+            poster:'assets/Drop_Tower.jpg',
+            caption:'Drop tower operation of lifting drop plate and dropping onto test specimein',
+            autoplay:true, loop:true, muted:true, controls:false, width:'75%'
+          },
           {type:'p', text:`For the data analysis I have primarily been studying the material response under dynamic compressive loads at different drop heights. The drop number is tabulated for each test specimen to analyze how repeated damage accumulates in the carbon fiber and effects strain measurements. We have also studied the changes to differing numbers of carbon fiber sheets as well as to manual scoring of test sections to induce stress concentrations. I am currently working on a FEA model to compare experimental data to computational results. `},
           {type:'img', src:'assets/StrainDecay_Data.png', caption:'FBG strain decay data after compressive impact on carbon fiber cylinder', width:'55%'}
         ]
@@ -123,6 +153,7 @@ Safety was also a key design driver throughout this project. I constructed a ste
         title:'2024 USLI — Payload Engineer & Safety Officer',
         cover:'assets/3532_PDS_FullAssembly.png',
         blurb:'NASA USLI competition for design of a deployable drone during rocket flight. Led payload integration and mission safety; risk matrices & test protocols.Winner of payload design award',
+        tags:['Computer-Aided Manufacturing','Mechanical Design','Finite Element Analysis','Rocketry','MATLAB','Flight Testing'],
         content:[
           {type:'p', text:`During my senior year, I was selected to join Vanderbilt University’s Rocket Competition team, where we competed against over 50 other universities in the NASA Student Launch Challenge. The 2024 challenge required teams to design a lander that could be deployed at 400 feet above ground level during rocket descent, land under human survivable conditions, and decelerate without a parachute. Our solution was a remotely deployed coaxial drone inspired by NASA’s Ingenuity drone.
 As the payload integration engineer, I was responsible for the Payload Deployment System (PDS), which needed to support and protect our 11 lb. drone throughout rocket flight and then deploy it in a stable manner at precisely 400 ft. I also served as the team’s Safety Officer and performed structural analysis of the vehicle’s load path. Designing the PDS required balancing several unique challenges: integrating the drone’s unconventional form factor into the rocket, ensuring deployment did not impart excessive momentum during startup, and developing an autonomous release system that functioned only after receiving Range Safety Officer (RSO) approval. This work required close collaboration with both the payload and vehicle teams to ensure proper integration.
@@ -137,18 +168,18 @@ The deployment electronics were developed with the electrical engineering team. 
           {type:'img', src:'assets/3532_PDS_FullAssembly.png', caption:'Fully Assembeled Payload Deployment System', width:'55%'},
           {type:'p', text:`The PDS underwent multiple rounds of ground testing and four flight tests, including at the NASA competition. On competition day, it performed flawlessly, making us one of only two teams to successfully deploy our payload and earning us the Payload Design Award. The system has since been adopted as a legacy design for future Vanderbilt USLI projects, continuing to demonstrate reliability with another successful integration during the 2025 project cycle.`},
           { type:'video',
-    sources: [{ src:'assets/Drone_Deployment_Test.mp4', type:'video/mp4' }],
-    poster:'assets/3532_PDS_FullAssembly.png',
-    caption:'RF-actuated drone deployment test from rocket-stowed configuration',
-    autoplay:true, loop:true, muted:true, controls:false, width:'75%'
-  },
-         { type:'video',
-          sources: [{ src:'assets/In_Flight_Deployment.mp4', type:'video/mp4' }],
-          poster:'assets/3532_PDS_FullAssembly.png',
-          caption:'Successful (tethered) drone deployment during rocket flight',
-          autoplay:true, loop:true, muted:true, controls:false, width:'75%'
-        },
-          {type:'p', text:"In addition to PDS contributions, my role as Safety Officer provided valuable experience in system integration. Writing risk mitigation matrices required evaluating how failures in propulsion, avionics, recovery, and payload systems could interact and cascade. This process taught me to approach design holistically, weighing both innovation and reliability, and deepened my understanding of how complex subsystems must work together in a high-stakes aerospace environment."},
+            sources: [{ src:'assets/Drone_Deployment_Test.mp4', type:'video/mp4' }],
+            poster:'assets/3532_PDS_FullAssembly.png',
+            caption:'RF-actuated drone deployment test from rocket-stowed configuration',
+            autoplay:true, loop:true, muted:true, controls:false, width:'75%'
+          },
+          { type:'video',
+            sources: [{ src:'assets/In_Flight_Deployment.mp4', type:'video/mp4' }],
+            poster:'assets/3532_PDS_FullAssembly.png',
+            caption:'Successful (tethered) drone deployment during rocket flight',
+            autoplay:true, loop:true, muted:true, controls:false, width:'75%'
+          },
+          {type:'p', text:"In addition to PDS contributions, my role as Safety Officer provided valuable experience in system integration. Writing risk mitigation matrices required evaluating how failures in propulsion, avionics, recovery, and payload systems could interact and cascade. This process taught me to approach design holistically, weighing both innovation and reliability, and deepened my understanding of how complex subsystems must work together in a high-stakes aerospace environment."}
         ]
       },
       {
@@ -156,6 +187,7 @@ The deployment electronics were developed with the electrical engineering team. 
         title:'Boosted Quadcopter Drone',
         cover:'assets/Drone_Photo.png',
         blurb:'Novel 6 motor drone design for increased power effeciency and haulage capabilities by decoupling thrust from pitch/roll; field tested',
+        tags:['Flight Testing','Mechanical Design','Python'],
         content:[
           {type:'p', text:"Starting in May 2024 myself and my lab colleagues, Jose Leonardo Brenes and Rais Nurhidajat, began work on a novel drone configuration. The motivation behind the project was to explore methods of increasing power effeciency of drones thus increasing their flight time and haulage capabilities. A typical quadcopter uses 4 radial motors to control the roll, pitch, and yaw as well as the thrust of the drone. As a consequence, controlling the attitude of the drone also effects the output thrust.Our team theorized that by adding a central coaxial motor to a quadcopter, the thrust and the attitude control could be effectively decoupled and therefore the power effeciency of the drone could be improved "},
           {type:'img', src:'assets/Drone_CAD.png', caption:'Initial CAD Design of Boosted Quadcopter drone', width:'55%'},
@@ -165,33 +197,27 @@ The deployment electronics were developed with the electrical engineering team. 
           {type:'img', src:'assets/PowerConsumption_Data.png', caption:'Power Consumption Metrics of Flight', width:'55%'},
           {type:'p', text:"Initial flight tests over the summer yielded promising results. The drone came to a weight of 5 lb and demonstrated stable flight including test cases of hauling a paylaod of 7 lb. The team was aiming for a power consumption ratio of 90% between the large coaxial motor and smaller quadcopter motors. Initial tests placed the ratio at approximatly 82%. Moving into the fall of 2024 as Leonardo left, I took over leadership of the project, while working alonside another colleague Andrew Noonan. Together we worked on increasing this power consumption ratio to 90%. The primary alterations were decreasing the size of the quadcopter motors while extending their moment arm to preserve controlling torque and further iterating our Ardupilot code to more effeciently control our all of our motors from the RC controller. After these modifictions the drone acheived a power ratio of 88%, close to our inital goal. Currently we are is discussions with the university Technology Tranfer Office to explore a patent on our design. Sample drone flight videos are shown below."},
           { type:'video',
-            sources: [
-              
-              { src:'assets/Drone_Flight.mp4',   type:'video/mp4'  }
-            ],
+            sources: [{ src:'assets/Drone_Flight.mp4', type:'video/mp4' }],
             poster:'assets/Drone_Photo.png',
             caption:'Hover and maneuvering',
             autoplay:true, loop:true, muted:true, controls:false,
             width:'55%'
           },
           { type:'video',
-            sources: [
-              
-              { src:'assets/Drone_Haulage.mp4',  type:'video/mp4'  }
-            ],
+            sources: [{ src:'assets/Drone_Haulage.mp4', type:'video/mp4' }],
             poster:'assets/Drone_Photo.png',
             caption:'7 lb haulage test',
             autoplay:true, loop:true, muted:true, controls:false,
             width:'55%'
           }
-
         ]
       },
       {
         slug:'autorotation-lander',
         title:'Autorotation Lander',
         cover:'assets/Autorotator_Prototype_1_Picture.png',
-        blurb:'Foldable low‑drift autorotaive lander. Designed for intigration with rocket. ',
+        blurb:'Foldable low-drift autorotaive lander. Designed for intigration with rocket. ',
+        tags:['Computational Fluid Dynamics','Flight Testing','Mechanical Design','MATLAB'],
         content:[
           {type:'p', text:`Over the summer of 2024, in parallel with the “Boosted Quadcopter” project, myself and my lab colleagues Jose Leonardo Brenes and Rais Nurhidajat, worked on a payload delivery system using autorotation. The system was designed to have folding propellors that can be stowed in a rocket and upon deployment the airflow over the negatively pitched blades will induce autorotation and produce lift sufficient for safe touchdown speeds. 
 The team built and tested multiple prototypes of the autorotation. Utilizing different propellor sizes and configurations, propellor pitches, and structural design choices. The autorotators were instrumented with an rpm sensor, altimeter, and imu to give the team valuable flight data to evaluate and iterate on our designs.  Rais worked primarily on test simulations using Blade Momentum theory, and Leo handled the instrumentation and fabrication of the landers. My responsibilities included the structural design of the lander and CFD simulations to predict the stability of the autorotator in the air before high stake drop tests. Our team tested by bringing our autorotator up 400 ft via a heavy lift drone before releasing them using the RF payload detachment mechanism highlighted in my “USLI” project section. 
@@ -201,26 +227,20 @@ The team built and tested multiple prototypes of the autorotation. Utilizing dif
           {type:'p', text:`Through each subsequent drop test, the gap between our simulated and experimental results shrank. The performance of the landers improved as well, dropping from impact speeds of 35 ft/s to 17 ft/s, under our initial goal of 25 ft/s. Trajectory analysis of our flights revealed the drone remains stable even in windy conditions and maintains low drift from the initial drop point when compared to parachute-based payload delivery systems. `},
           {type:'img', src:'assets/Auto_Rotator_Flight_Data.png', caption:'Collected flight data from drop tests',width:'55%'},
           { type:'video',
-            sources: [
-              
-              { src:'assets/Single_Plane_drop.mp4',  type:'video/mp4'  }
-            ],
+            sources: [{ src:'assets/Single_Plane_drop.mp4', type:'video/mp4' }],
             poster:'assets/AutoRotator_Prototype_1_Picture.png',
             caption:'Drop Footage of non-rocket configuration',
             autoplay:true, loop:true, muted:true, controls:false,
             width:'55%'
           },
           { type:'video',
-            sources: [
-              
-              { src:'assets/Rocket_Version_Flight.mp4',  type:'video/mp4'  }
-            ],
+            sources: [{ src:'assets/Rocket_Version_Flight.mp4', type:'video/mp4' }],
             poster:'assets/AutoRotator_Prototype_1_Picture.png',
             caption:'synched drop Footage of rocket configuration',
             autoplay:true, loop:true, muted:true, controls:false,
             width:'55%'
           },
-           {type:'img', src:'assets/Autoroting_Trajectory.png', caption:'Trajectory of autorotator at differnet blade pitches',width:'55%'}
+          {type:'img', src:'assets/Autoroting_Trajectory.png', caption:'Trajectory of autorotator at differnet blade pitches',width:'55%'}
         ]
       },
       {
@@ -228,6 +248,7 @@ The team built and tested multiple prototypes of the autorotation. Utilizing dif
         title:'Teaching Assistant',
         cover:'assets/vanderbilt-engineering_small.png',
         blurb:'TA for Senior Mechanical Engineering Lab and Finite Element Analysis Class',
+        tags:['Fluid Dynamics','Finite Element Analysis','Computer-Aided Manufacturing'],
         content:[
           {type:'p', text:`During my time as a master’s student, I have been a teaching assistant for the Energetics Lab for senior mechanical engineering students as well as a FEA class for undergraduate and graduate students. 
 As a TA for the Energetics lab, I led students through laboratories relating to fluid dynamics and thermodynamics including a pipe flow lab, air conditioning lab, wind tunnel testing, and shock tube testing. My responsibilities included explaining the theory behind each lab connecting to the students’ classes, ensuring the labs are conducted safely, repairing lab equipment, and grading student lab reports. 
@@ -250,131 +271,176 @@ As a TA for the Energetics lab, I led students through laboratories relating to 
       return a;
     }
 
+    // --- Filters UI ---
+    function filtersBar(){
+      const wrap = document.createElement('div');
+      wrap.className = 'filters';
+      wrap.id = 'filters';
 
-function renderBlocks(parent, blocks){
-  const c = document.createElement('div');
-  c.className = 'content';
-
-  (blocks || []).forEach(b => {
-    if (b.type === 'p') {
-      const p = document.createElement('p');
-      p.textContent = b.text || '';
-      c.appendChild(p);
-
-    } else if (b.type === 'h2') {
-      const h = document.createElement('h3');
-      h.className = 'section-title';
-      h.textContent = b.text || '';
-      c.appendChild(h);
-
-    } else if (b.type === 'img') {
-      const fig = document.createElement('figure');
-      const img = document.createElement('img');
-      img.src = b.src;
-      img.alt = b.caption || '';
-
-      // optional per-image sizing
-      if (b.width)    img.style.width    = b.width;     // "60%" or "600px"
-      if (b.maxWidth) img.style.maxWidth = b.maxWidth;  // "680px"
-      if (b.width || b.maxWidth) { img.style.display='block'; img.style.margin='0 auto'; }
-
-      fig.appendChild(img);
-      if (b.caption) {
-        const cap = document.createElement('figcaption');
-        cap.className = 'caption';
-        cap.textContent = b.caption;
-        fig.appendChild(cap);
-      }
-      c.appendChild(fig);
-
-    } else if (b.type === 'video') {
-      const fig = document.createElement('figure');
-      const v = document.createElement('video');
-      v.playsInline = true;
-      if (b.autoplay) v.autoplay = true;
-      if (b.loop)     v.loop = true;
-      if (b.muted)    v.muted = true; // required for autoplay
-      if (b.controls) v.controls = true;
-      v.preload = 'metadata';
-      if (b.poster)   v.poster = b.poster;
-
-      // optional per-video sizing
-      if (b.width)    v.style.width    = b.width;
-      if (b.maxWidth) v.style.maxWidth = b.maxWidth;
-      if (b.width || b.maxWidth) { v.style.display='block'; v.style.margin='0 auto'; }
-      else { v.style.width = '100%'; }
-      v.style.border = 'var(--thick) solid var(--line)';
-
-      if (Array.isArray(b.sources)) {
-        b.sources.forEach(s => {
-          const src = document.createElement('source');
-          src.src = s.src;
-          if (s.type) src.type = s.type;
-          v.appendChild(src);
-        });
-      } else if (b.src) {
-        v.src = b.src;
-      }
-
-      fig.appendChild(v);
-      if (b.caption) {
-        const cap = document.createElement('figcaption');
-        cap.className = 'caption';
-        cap.textContent = b.caption;
-        fig.appendChild(cap);
-      }
-      c.appendChild(fig);
-
-    } else if (b.type === 'ul') {
-      const ul = document.createElement('ul');
-      (b.items || []).forEach(t => {
-        const li = document.createElement('li');
-        li.textContent = t;
-        ul.appendChild(li);
+      TOPICS.forEach(topic => {
+        const btn = document.createElement('button');
+        btn.className = 'chip';
+        btn.type = 'button';
+        btn.textContent = topic;
+        btn.setAttribute('aria-pressed', activeFilters.has(topic) ? 'true' : 'false');
+        btn.addEventListener('click', () => toggleFilter(topic));
+        btn.dataset.topic = topic;
+        wrap.appendChild(btn);
       });
-      c.appendChild(ul);
+
+      const clear = document.createElement('button');
+      clear.className = 'chip clear-chip';
+      clear.type = 'button';
+      clear.textContent = 'Clear filters';
+      clear.addEventListener('click', clearFilters);
+      wrap.appendChild(clear);
+
+      return wrap;
     }
-  });
 
-  parent.appendChild(c);
-}
-
-  
-  
-  
-      function home(){
-        app.innerHTML='';
-        const hero=document.createElement('section'); hero.className='hero';
-        hero.innerHTML=`<div class="panel"><h1>Jonathan Zak</h1><p>${intro}</p></div>
-                        <div class="panel"><img src="assets/headshot.jpg" style="aspect-ratio:1/1;width:min(360px,90%);background:linear-gradient(135deg,var(--goldL),var(--goldD));border:var(--thick) solid var(--line)"></div>`;
-        app.appendChild(hero);
-  
-        const grid=document.createElement('div'); grid.className='grid';
-        projects.forEach(p=>grid.appendChild(card(p)));
-        app.appendChild(grid);
+    function updateChipStates(){
+      const bar = document.getElementById('filters'); if(!bar) return;
+      for (const el of bar.querySelectorAll('.chip')) {
+        const t = el.dataset.topic;
+        if (!t) continue;
+        el.setAttribute('aria-pressed', activeFilters.has(t) ? 'true' : 'false');
       }
+    }
 
-function project(slug){
-  const p = projects.find(x => x.slug === slug); if(!p){ location.hash='#/'; return; }
-  const cap = p.heroMaxWidth || '680px';         // default cap if none provided
-  app.innerHTML = '';
-  const back = document.createElement('div'); back.className='row'; back.style.margin='16px 0';
-  back.innerHTML = '<a class="mark" href="#/">← BACK</a>'; app.appendChild(back);
+    function renderGrid(){
+      const grid = document.getElementById('grid'); if(!grid) return;
+      grid.innerHTML = '';
+      const filtered = projects.filter(p => passesFilters(p));
+      if (filtered.length === 0){
+        const empty = document.createElement('div');
+        empty.className = 'panel';
+        empty.innerHTML = '<p><strong>No projects match those filters.</strong></p>';
+        grid.appendChild(empty);
+        return;
+      }
+      filtered.forEach(p=>grid.appendChild(card(p)));
+    }
 
-  const head = document.createElement('section'); head.className='panel';
-  head.innerHTML = `
-    <h1 style="display:flex;gap:10px;align-items:center">
-      ${p.title} ${p.active?'<span class="badge" style="position:static">Active</span>':''}
-    </h1>
-    <img src="${p.cover}" alt="${p.title} cover"
-         style="width:100%;height:auto;border:var(--thick) solid var(--line);
-                max-width:${cap};display:block;margin:0 auto;">
-  `;
-  app.appendChild(head);
+    function renderBlocks(parent, blocks){
+      const c = document.createElement('div');
+      c.className = 'content';
 
-  renderBlocks(app, p.content);
-}
+      (blocks || []).forEach(b => {
+        if (b.type === 'p') {
+          const p = document.createElement('p');
+          p.textContent = b.text || '';
+          c.appendChild(p);
 
+        } else if (b.type === 'h2') {
+          const h = document.createElement('h3');
+          h.className = 'section-title';
+          h.textContent = b.text || '';
+          c.appendChild(h);
+
+        } else if (b.type === 'img') {
+          const fig = document.createElement('figure');
+          const img = document.createElement('img');
+          img.src = b.src;
+          img.alt = b.caption || '';
+
+          if (b.width)    img.style.width    = b.width;
+          if (b.maxWidth) img.style.maxWidth = b.maxWidth;
+          if (b.width || b.maxWidth) { img.style.display='block'; img.style.margin='0 auto'; }
+
+          fig.appendChild(img);
+          if (b.caption) {
+            const cap = document.createElement('figcaption');
+            cap.className = 'caption';
+            cap.textContent = b.caption;
+            fig.appendChild(cap);
+          }
+          c.appendChild(fig);
+
+        } else if (b.type === 'video') {
+          const fig = document.createElement('figure');
+          const v = document.createElement('video');
+          v.playsInline = true;
+          if (b.autoplay) v.autoplay = true;
+          if (b.loop)     v.loop = true;
+          if (b.muted)    v.muted = true;
+          if (b.controls) v.controls = true;
+          v.preload = 'metadata';
+          if (b.poster)   v.poster = b.poster;
+
+          if (b.width)    v.style.width    = b.width;
+          if (b.maxWidth) v.style.maxWidth = b.maxWidth;
+          if (b.width || b.maxWidth) { v.style.display='block'; v.style.margin='0 auto'; }
+          else { v.style.width = '100%'; }
+          v.style.border = 'var(--thick) solid var(--line)';
+
+          if (Array.isArray(b.sources)) {
+            b.sources.forEach(s => {
+              const src = document.createElement('source');
+              src.src = s.src;
+              if (s.type) src.type = s.type;
+              v.appendChild(src);
+            });
+          } else if (b.src) {
+            v.src = b.src;
+          }
+
+          fig.appendChild(v);
+          if (b.caption) {
+            const cap = document.createElement('figcaption');
+            cap.className = 'caption';
+            cap.textContent = b.caption;
+            fig.appendChild(cap);
+          }
+          c.appendChild(fig);
+
+        } else if (b.type === 'ul') {
+          const ul = document.createElement('ul');
+          (b.items || []).forEach(t => {
+            const li = document.createElement('li');
+            li.textContent = t;
+            ul.appendChild(li);
+          });
+          c.appendChild(ul);
+        }
+      });
+
+      parent.appendChild(c);
+    }
+
+    function home(){
+      app.innerHTML='';
+      const hero=document.createElement('section'); hero.className='hero';
+      hero.innerHTML=`<div class="panel"><h1>Jonathan Zak</h1><p>${intro}</p></div>
+                      <div class="panel"><img src="assets/headshot.jpg" style="aspect-ratio:1/1;width:min(360px,90%);background:linear-gradient(135deg,var(--goldL),var(--goldD));border:var(--thick) solid var(--line)"></div>`;
+      app.appendChild(hero);
+
+      // filters bar
+      app.appendChild(filtersBar());
+
+      // grid container
+      const grid=document.createElement('div'); grid.className='grid'; grid.id='grid';
+      app.appendChild(grid);
+
+      // initial render
+      renderGrid();
+    }
+
+    function project(slug){
+      const p=projects.find(x=>x.slug===slug); if(!p){location.hash='#/'; return;}
+      app.innerHTML='';
+      const back=document.createElement('div'); back.className='row'; back.style.margin='16px 0';
+      back.innerHTML='<a class="mark" href="#/">← BACK</a>';
+      app.appendChild(back);
+
+      const cap = p.heroMaxWidth || '680px';
+      const head=document.createElement('section'); head.className='panel';
+      head.innerHTML=`<h1 style="display:flex;gap:10px;align-items:center">${p.title} ${p.active?'<span class="badge" style="position:static">Active</span>':''}</h1>
+                      <img src="${p.cover}" alt="${p.title} cover"
+                           style="width:100%;height:auto;border:var(--thick) solid var(--line);max-width:${cap};display:block;margin:0 auto;">`;
+      app.appendChild(head);
+
+      renderBlocks(app, p.content);
+    }
 
     function router(){
       const h=location.hash||'#/', parts=h.slice(2).split('/');
