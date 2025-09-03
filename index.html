@@ -186,8 +186,31 @@ The deployment electronics were developed with the electrical engineering team. 
           {type:'p', text:`Over the summer of 2024, in parallel with the “Boosted Quadcopter” project, myself and my lab colleagues Jose Leonardo Brenes and Rais Nurhidajat, worked on a payload delivery system using autorotation. The system was designed to have folding propellors that can be stowed in a rocket and upon deployment the airflow over the negatively pitched blades will induce autorotation and produce lift sufficient for safe touchdown speeds. 
 The team built and tested multiple prototypes of the autorotation. Utilizing different propellor sizes and configurations, propellor pitches, and structural design choices. The autorotators were instrumented with an rpm sensor, altimeter, and imu to give the team valuable flight data to evaluate and iterate on our designs.  Rais worked primarily on test simulations using Blade Momentum theory, and Leo handled the instrumentation and fabrication of the landers. My responsibilities included the structural design of the lander and CFD simulations to predict the stability of the autorotator in the air before high stake drop tests. Our team tested by bringing our autorotator up 400 ft via a heavy lift drone before releasing them using the RF payload detachment mechanism highlighted in my “USLI” project section. 
 `},
-          {type:'img', src:'assets/Autorotator_Prototype_1_Picture.png', caption:'Prototype lander'},
-          {type:'img', src:'assets/AutoRotator_CFD.png', caption:'CFD slice of velocity magnitude'}
+          {type:'img', src:'assets/AutoRotator_CFD.png', caption:'CFD investigating passive stability of autorotator',width:'55%'},
+          {type:'img', src:'assets/Autorotator_modeling_matlab.png', caption:'MATLAB modeling for performance predictions at differnet propellor pitches',width:'55%'},
+          {type:'p', text:`Through each subsequent drop test, the gap between our simulated and experimental results shrank. The performance of the landers improved as well, dropping from impact speeds of 35 ft/s to 17 ft/s, under our initial goal of 25 ft/s. Trajectory analysis of our flights revealed the drone remains stable even in windy conditions and maintains low drift from the initial drop point when compared to parachute-based payload delivery systems. `},
+          {type:'img', src:'assets/Auto_Rotator_Flight_Data.png', caption:'Collected flight data from drop tests',width:'55%'},
+          { type:'video',
+            sources: [
+              
+              { src:'assets/Single_Plane_drop.mp4',  type:'video/mp4'  }
+            ],
+            poster:'assets/AutoRotator_Prototype_1_Picture.png',
+            caption:'Drop Footage of non-rocket configuration',
+            autoplay:true, loop:true, muted:true, controls:false,
+            width:'55%'
+          },
+          { type:'video',
+            sources: [
+              
+              { src:'assets/Rocket_Version_Flight.mp4',  type:'video/mp4'  }
+            ],
+            poster:'assets/AutoRotator_Prototype_1_Picture.png',
+            caption:'synched drop Footage of rocket configuration',
+            autoplay:true, loop:true, muted:true, controls:false,
+            width:'55%'
+          },
+           {type:'img', src:'assets/Autoroting_Trajectory.png', caption:'Trajectory of autorotator at differnet blade pitches',width:'55%'}
         ]
       },
       {
