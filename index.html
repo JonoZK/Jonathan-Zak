@@ -87,13 +87,13 @@
           {type:'p', text:`In conjunction with the dynamic drop tower facility, I am currently developing a custom shock tube test facility to study the dynamic strain response of carbon fiber cylinders under high-rate loading. For a detailed background on my ongoing carbon fiber research please refer to the dynamic drop tower project as it is first in chronological order. My goal with the shock tube test facility is to deliver high-rate pressure loading to carbon fiber cylinders by developing an attachment to an existing steel shock tube, where my carbon fiber cylinders can be attached. 
  A central focus of my work has been the instrumentation setup, where I integrated both Fiber Bragg Grating (FBG) sensors and resistive strain gauges (RSGs) to capture hoop and axial strain during shock events. To support these high-speed measurements, I designed a data acquisition workflow using a National Instruments DAQ and LabVIEW interface, ensuring synchronization and clean signal capture at high sampling rates. This instrumentation framework lays the foundation for extracting meaningful strain data in complex, transient loading environments.
 `},
-          {type:'img', src:'assets/Test_Section_CAD.png', caption:'Carbon Fiber cylinder attatchment CAD'},
-          {type:'img', src:'assets/Machining_Picture.jpg', caption:'CNCing process of custom flange'},
+          {type:'img', src:'assets/Test_Section_CAD.png', caption:'Carbon Fiber cylinder attatchment CAD', width:'55%'},
+          {type:'img', src:'assets/Machining_Picture.jpg', caption:'CNCing process of custom flange', width:'55%'},
           {type:'p', text:`To physically interface the shock tube with carbon fiber test sections, I designed and machined custom aluminum flanges using CNC milling and manual finishing techniques. These flanges provide precise sealing and load transfer between the pressure-driven shock tube and the composite cylinders, while also allowing for repeatable installation of test specimens. This machining effort not only ensured robust mechanical connections but also allowed flexibility in adapting the facility for different specimen geometries.
 Safety was also a key design driver throughout this project. I constructed a steel mesh safety cage around the shock tube to contain debris in the unlikely event of cylinder rupture, drawing on best practices from aerospace labs and defense research facilities. With the initial setup complete, I have already performed early benchmarking tests on my composite cylinders to validate system performance, calibrating sensors and verifying pressure wave consistency through the tube. These results confirmed both the functionality of the facility and the reliability of the instrumentation, giving me confidence as I progress toward more advanced testing campaigns on carbon fiber aerospace structures. This is my most ongoing work and will lead to my masters thesis, in the future I will investigate the strain response over repeated dynamic shock loading, the effects of different fiber layup configurations, and developing a multi-physics FEM simulation to compare with experimental data. 
 `},
-         {type:'img', src:'assets/Shock_Tube_integration.jpg', caption:'Integrated instrumented carbon fiber cylinder on shock tube'},
-         {type:'img', src:'assets/Benchmarking_Data.png', caption:'Benchmarking strain data for initial shock tube tests'}, 
+         {type:'img', src:'assets/Shock_Tube_integration.jpg', caption:'Integrated instrumented carbon fiber cylinder on shock tube', width:'55%'},
+         {type:'img', src:'assets/Benchmarking_Data.png', caption:'Benchmarking strain data for initial shock tube tests', width:'55%'}, 
         ]
       },
       {
@@ -183,7 +183,9 @@ The deployment electronics were developed with the electrical engineering team. 
         cover:'assets/Autorotator_Prototype_1_Picture.png',
         blurb:'Foldable low‑drift autorotaive lander. Designed for intigration with rocket. ',
         content:[
-          {type:'p', text:'Concept minimizes lateral drift while keeping touchdown rates gentle.'},
+          {type:'p', text:`Over the summer of 2024, in parallel with the “Boosted Quadcopter” project, myself and my lab colleagues Jose Leonardo Brenes and Rais Nurhidajat, worked on a payload delivery system using autorotation. The system was designed to have folding propellors that can be stowed in a rocket and upon deployment the airflow over the negatively pitched blades will induce autorotation and produce lift sufficient for safe touchdown speeds. 
+The team built and tested multiple prototypes of the autorotation. Utilizing different propellor sizes and configurations, propellor pitches, and structural design choices. The autorotators were instrumented with an rpm sensor, altimeter, and imu to give the team valuable flight data to evaluate and iterate on our designs.  Rais worked primarily on test simulations using Blade Momentum theory, and Leo handled the instrumentation and fabrication of the landers. My responsibilities included the structural design of the lander and CFD simulations to predict the stability of the autorotator in the air before high stake drop tests. Our team tested by bringing our autorotator up 400 ft via a heavy lift drone before releasing them using the RF payload detachment mechanism highlighted in my “USLI” project section. 
+`},
           {type:'img', src:'assets/Autorotator_Prototype_1_Picture.png', caption:'Prototype lander'},
           {type:'img', src:'assets/AutoRotator_CFD.png', caption:'CFD slice of velocity magnitude'}
         ]
