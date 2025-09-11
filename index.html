@@ -46,6 +46,29 @@
     .content figure{ margin:12px auto; text-align:center; }
     .caption{ text-align:center; }
 
+    /* Justify body copy (paragraphs, list items, captions) */
+.panel p,
+.content p,
+.content li,
+.caption{
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto; /* iOS Safari */
+}
+
+/* Headshot: centered and a bit larger */
+.headshot{
+  display:block;
+  margin:0 auto;              /* center in its panel */
+  aspect-ratio:1/1;
+  width:min(440px, 100%);     /* was ~360px; tweak this number to taste */
+  border:var(--thick) solid var(--line);
+  background:linear-gradient(135deg,var(--goldL),var(--goldD));
+  object-fit:cover;
+}
+
+
     /* --- Filter chips --- */
     .filters { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 18px; }
     .chip {
@@ -413,7 +436,10 @@ As a TA for the Energetics lab, I led students through laboratories relating to 
       app.innerHTML='';
       const hero=document.createElement('section'); hero.className='hero';
       hero.innerHTML=`<div class="panel"><h1>Jonathan Zak</h1><p>${intro}</p></div>
-                      <div class="panel"><img src="assets/headshot.jpg" style="aspect-ratio:1/1;width:min(360px,90%);background:linear-gradient(135deg,var(--goldL),var(--goldD));border:var(--thick) solid var(--line)"></div>`;
+                      <div class="panel">
+  <img class="headshot" src="assets/headshot.jpg" alt="Headshot of Jonathan Zak">
+</div>
+
       app.appendChild(hero);
 
       // filters bar
